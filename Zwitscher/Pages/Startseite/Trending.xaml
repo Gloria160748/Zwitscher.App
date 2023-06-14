@@ -1,0 +1,15 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.Pages.Trending">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BorderColor="LightGray"
+                   CornerRadius="10">
+                <Label Text="Entdecke die Trends bei Zwitscher!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

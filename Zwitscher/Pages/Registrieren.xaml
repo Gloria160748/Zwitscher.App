@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.Pages.Registrieren">
+
+    <NavigationPage.TitleView>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="25" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+            <Image Margin="-10, -10, -10, -10" Source="zwitscher_logo1.png" HorizontalOptions="CenterAndExpand"  HeightRequest="25" WidthRequest="25" MinimumHeightRequest="25" MinimumWidthRequest="25"  Grid.Row="0" Grid.Column="0"  />
+            <Label Text="Registrieren" FontSize="Title" Grid.Row="0" Grid.Column="1" TextColor="#27408b"/>
+        </Grid>
+    </NavigationPage.TitleView>
+    
+    
+    <ContentPage.Content>
+        <AbsoluteLayout>
+            <Frame BorderColor="Blue"
+                   CornerRadius="10">
+                <FlexLayout Direction="Column"
+                    AlignItems="Stretch"
+                    JustifyContent="Start">
+
+                    <Frame Margin="10" 
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry 
+                        Placeholder="Vorname"
+                        TextColor="#27408b"
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        Placeholder="Nachname"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        Placeholder="Geburtsdatum"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        Placeholder="Passwort"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        Placeholder="Passwort wiederholen"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+                    <Button 
+                        Margin="0"
+                        VerticalOptions="Center"
+                        TextColor="#27408b"
+                        BackgroundColor="Transparent"
+                        BorderColor="DarkBlue"
+                        BorderWidth="1.5"
+                        CornerRadius="50"
+                        Text="Jetzt registrieren"
+                ></Button>
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Du hast schon einen Account?" TextColor="Gray"/>
+                                <Span Text="Hier Anmelden" TextColor="Gray" FontAttributes="Bold" TextDecorations="Underline"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+                </FlexLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

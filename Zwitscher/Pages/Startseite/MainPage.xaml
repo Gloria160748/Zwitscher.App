@@ -1,0 +1,41 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.MainPage" xmlns:local="clr-namespace:Zwitscher.Pages" 
+            Title="Zwitscher"
+            BarBackgroundColor="White"
+            BarTextColor="Blue"
+            UnselectedTabColor="Black">
+            
+    <local:Home Title="Home" />
+    <local:Öffentlich Title="Öffentlich"/>
+    <local:Trending Title="Trending" />
+    <local:Neu Title="Neu" />
+
+    
+    
+    <TabbedPage.ToolbarItems>
+        <ToolbarItem Text="Profil"
+                     Clicked="ToolbarItem_Clicked"
+                     IconImageSource="avatar.png"
+                     Priority="1"
+                     Order="Primary"/>
+        <ToolbarItem Text="zwitscher"
+                     IconImageSource="zwitscher_logo1.png"
+                     Priority="0"
+                     Order="Primary"
+                     />
+        <ToolbarItem Text="LogIn"
+                     Clicked="ToolbarItem_Clicked_1"
+                     Priority="2"
+                     Order="Secondary"/>
+        <ToolbarItem Text="Logout"
+                     Clicked="ToolbarItem_Clicked_2"
+                     Priority="3"
+                     Order="Secondary"/>
+
+
+    </TabbedPage.ToolbarItems>
+
+
+</TabbedPage>

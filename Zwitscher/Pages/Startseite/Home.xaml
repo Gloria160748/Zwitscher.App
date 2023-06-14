@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             
+             x:Class="Zwitscher.Pages.Home">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BorderColor="LightGray"
+                   CornerRadius="10">
+                
+                
+                <Label Text="Willkommen auf der Startseite von Zwitscher!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand"
+                Margin="10"/>
+             </Frame>
+            
+            
+            
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

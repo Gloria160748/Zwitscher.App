@@ -1,0 +1,87 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage  xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.Login"
+              Title="LogIn">
+
+    
+    
+
+        <ContentPage.ToolbarItems>
+            
+       
+        <ToolbarItem Text="zwitscher"
+                     IconImageSource="zwitscher_logo1.png"
+                     Priority="0"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+
+
+
+    <ContentPage.Content>
+        <AbsoluteLayout BackgroundColor="Transparent">
+            
+            <Frame 
+                   BorderColor="Blue"
+                   CornerRadius="10">
+                <FlexLayout Direction="Column"
+                    AlignItems="Stretch"
+                    JustifyContent="Start">
+                    <Frame Margin="10"
+                        CornerRadius="10">
+                        <Label
+                        Text="Melde dich bei Zwitscher! an oder erstelle einen Account."
+                       FontSize="Medium" TextColor="Black"/>
+                     </Frame>
+                    <Image Source="zwitscher_logo1.png" 
+                           HeightRequest="150"
+                           />
+                    <Frame Margin="10" 
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                    <Entry 
+                        x:Name="txtUsername"
+                        Placeholder="Username"
+                        TextColor="#27408b"
+                        PlaceholderColor="#27408b">
+                    </Entry>
+                    </Frame>
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                    <Entry
+                        x:Name="txtPasswort"
+                        Placeholder="Passwort"
+                         IsPassword="True" 
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                    </Entry>
+                    </Frame>
+                    <Button 
+                        Margin="0"
+                        VerticalOptions="Center"
+                        TextColor="#27408b"
+                        BackgroundColor="Transparent"
+                        BorderColor="DarkBlue"
+                        BorderWidth="1.5"
+                        CornerRadius="50"
+                        Text="Login"
+                        Clicked="Button_Clicked"
+                        ></Button>
+                    <Label HorizontalOptions="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Noch keinen Account?" TextColor="Gray"/>
+                                <Span Text="Registrieren" TextColor="Gray" FontAttributes="Bold" TextDecorations="Underline"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
+                        </Label.GestureRecognizers>
+                    </Label>
+            </FlexLayout>
+            </Frame>
+        </AbsoluteLayout>
+    </ContentPage.Content>
+</ContentPage>

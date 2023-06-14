@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.Pages.Öffentlich">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame BorderColor="LightGray"
+                   CornerRadius="10">
+                <Label Text="Öffentliches bei zwitscher!!"
+                VerticalOptions="CenterAndExpand" 
+                HorizontalOptions="CenterAndExpand" />
+            </Frame>
+            <Frame BorderColor="#27408b"
+                   CornerRadius="10">
+                <SearchBar Placeholder="Suche.." 
+                       TextColor="#27408b"
+                       BackgroundColor="Transparent"
+                       PlaceholderColor="#27408b"
+                       HeightRequest="30"
+                       WidthRequest="200"
+                       HorizontalOptions="EndAndExpand"/>
+            </Frame>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

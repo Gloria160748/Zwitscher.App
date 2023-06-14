@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Zwitscher.Pages.Profil"
+             xmlns:CI="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             Title="Profil">
+
+    <ContentPage.ToolbarItems>
+
+
+        <ToolbarItem Text="zwitscher"
+                     IconImageSource="zwitscher_logo1.png"
+                     Priority="0"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <ScrollView>
+            <AbsoluteLayout>
+                <FlexLayout Direction="Column"
+                    AlignItems="Stretch"
+                    JustifyContent="Start">
+                    <CI:CircleImage WidthRequest="420"
+                            HeightRequest="100"
+                            Aspect="AspectFit"
+                            Source="avatar.png"
+                            />
+                    <Frame BorderColor="LightGray"
+                   CornerRadius="10">
+                        <Label HorizontalOptions="Start"
+                                Text="Name"/>
+                        
+                    </Frame>
+                    
+
+                </FlexLayout>
+            </AbsoluteLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
