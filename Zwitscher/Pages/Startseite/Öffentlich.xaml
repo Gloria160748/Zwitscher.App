@@ -20,6 +20,10 @@
                        WidthRequest="200"
                        HorizontalOptions="EndAndExpand"/>
             </Frame>
+
+            <Entry x:Name="EntryTextContent" Placeholder="Textinhalt" />
+            <Switch x:Name="SwitchIsPublic" IsToggled="True" />
+            <Button Text="Post erstellen" Clicked="ButtonCreatePost_Clicked" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

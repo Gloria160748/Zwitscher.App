@@ -1,0 +1,22 @@
+﻿using System;
+using System.Net.Http;
+
+namespace Zwitscher
+{
+    public class AppConfig
+    {
+        public static string ApiUrl = "http://10.0.2.2:5141";
+        public static HttpClient Client;
+
+        public static HttpClient GetHttpClient()
+        {
+            if(Client == null)
+            {
+                Client = new HttpClient();
+                Client.BaseAddress = new Uri(ApiUrl);
+            }
+
+            return Client;
+        }
+    }
+}

@@ -7,16 +7,86 @@
         <StackLayout>
             <Frame BorderColor="LightGray"
                    CornerRadius="10">
-                
-                
+
+
                 <Label Text="Willkommen auf der Startseite von Zwitscher!"
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand"
                 Margin="10"/>
-             </Frame>
-            
-            
-            
+            </Frame>
+            <Button Text="Api Call" Clicked="Button_Clicked" />
+
+            <ListView x:Name="postsListView" HasUnevenRows="True">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <StackLayout Padding="10">
+                                <!-- Profilbild und Name des Nutzers mit dem Datum -->
+                                <StackLayout Orientation="Horizontal">
+                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
+                                    <Label Text="{Binding user_username}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                    <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Clicked="DeleteButton_Clicked" Background="transparent"/>
+                                </StackLayout>
+
+                                <!-- Text des Posts -->
+                                <Label Text="{Binding postText}" Margin="0,10,0,10" />
+
+                                <!-- Bilder aus der Liste -->
+                                <StackLayout Orientation="Horizontal">
+                                    <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="80">
+                                        <CollectionView.ItemsLayout>
+                                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                        </CollectionView.ItemsLayout>
+                                        <CollectionView.ItemTemplate>
+                                            <DataTemplate>
+                                                <Image Source="{Binding}" WidthRequest="80" HeightRequest="80" />
+                                            </DataTemplate>
+                                        </CollectionView.ItemTemplate>
+                                    </CollectionView>
+                                </StackLayout>
+
+                                <!-- Box mit Upvote/Downvote-Buttons, Rating und Kommentaranzahl -->
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10,0,0">
+                                    <ImageButton Source="upvote.png" Clicked="UpvoteButton_Clicked" WidthRequest="30" HeightRequest="30" Background="transparent"/>
+                                    <ImageButton Source="downvote.png" Clicked="DownvoteButton_Clicked" WidthRequest="30" HeightRequest="30" Background="transparent"/>
+                                    <Label Text="{Binding rating}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                    <Button Text="{Binding commentCount, StringFormat='{0} Comments'}" VerticalOptions="Center" Margin="10,0,0,0" Clicked="CommentButton_Clicked"/>
+                                </StackLayout>
+
+                            </StackLayout>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <StackLayout x:Name="commentView" IsVisible="false">
+                <ListView x:Name="commentListView" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <StackLayout Padding="10">
+                                    <!-- Profilbild und Name des Nutzers mit dem Datum -->
+                                    <StackLayout Orientation="Horizontal">
+                                        <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
+                                        <Label Text="{Binding user_username}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                        <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" Margin="10,0,0,0" />
+                                        <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Clicked="DeleteCommentButton_Clicked" Background="transparent" IsVisible="{Binding loggedInUserIsCreator}"/>
+                                    </StackLayout>
+
+                                    <!-- Text des Posts -->
+                                    <Label Text="{Binding commentText}" Margin="0,10,0,10" />
+                                </StackLayout>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <Entry x:Name="CommentText" Placeholder="Kommentarinhalt" />
+                <Button Text="Commentar posten" Clicked="ButtonCreateComment_Clicked" />
+            </StackLayout>
+
+
+
 
         </StackLayout>
     </ContentPage.Content>

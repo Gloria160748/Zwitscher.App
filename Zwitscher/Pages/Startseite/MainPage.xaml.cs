@@ -5,11 +5,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
+using Zwitscher.Services;
 
 namespace Zwitscher
 {
     public partial class MainPage : TabbedPage
     {
+        AuthService authService = new AuthService();
         public MainPage()
         {
             InitializeComponent();
@@ -27,7 +29,7 @@ namespace Zwitscher
 
         private void ToolbarItem_Clicked_2(object sender, EventArgs e)
         {
-
+            authService.Logout();
         }
     }
 }

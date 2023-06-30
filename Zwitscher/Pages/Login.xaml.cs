@@ -6,26 +6,33 @@ using System.Threading.Tasks;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
+using Zwitscher.Services;
 
 namespace Zwitscher
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class Login : ContentPage
     {
+        private AuthService authService;
+
         public Login()
         {
+            authService = new AuthService();
             InitializeComponent();
         }
 
-        private void Button_Clicked(object sender, EventArgs e)
+        private async void Button_Clicked(object sender, EventArgs e)
         {
-             if(txtUsername.Text=="admin" && txtPasswort.Text=="1234")
+            var user = await authService.Login(txtUsername.Text, txtPasswort.Text);
+
+
+            if(user.Success == true)
             {
-                Navigation.PushAsync(new MainPage());
+                await Navigation.PushAsync(new MainPage());
             }
             else
             {
-                DisplayAlert("Ups..", "Username oder Passwort ist falsch!", "ok");
+                await DisplayAlert("Ups..", "Username oder Passwort ist falsch!", "ok");
             }
         }
 
