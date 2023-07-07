@@ -76,10 +76,11 @@ namespace Zwitscher.Services
 
         }
 
-        public async void Logout()
+        public async Task<HttpResponseMessage> Logout()
         {
             activeUser = null;
-            await _client.PostAsync("Api/Logout", null);
+            var response = await _client.PostAsync("Api/Logout", null);
+            return response.EnsureSuccessStatusCode();
         }
 
         public async Task<LoginUser> GetActiveUser()

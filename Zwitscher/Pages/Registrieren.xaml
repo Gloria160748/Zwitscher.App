@@ -26,7 +26,8 @@
                     <Frame Margin="10" 
                         BorderColor="DarkBlue"
                         CornerRadius="10">
-                        <Entry 
+                        <Entry
+                        x:Name="Vorname"
                         Placeholder="Vorname"
                         TextColor="#27408b"
                         PlaceholderColor="#27408b">
@@ -38,6 +39,7 @@
                         BorderColor="DarkBlue"
                         CornerRadius="10">
                         <Entry
+                        x:Name="Nachname"
                         Placeholder="Nachname"
                         TextColor="DarkBlue" 
                         PlaceholderColor="#27408b">
@@ -49,7 +51,8 @@
                         BorderColor="DarkBlue"
                         CornerRadius="10">
                         <Entry
-                        Placeholder="Geburtsdatum"
+                        x:Name="Username"
+                        Placeholder="Username"
                         TextColor="DarkBlue" 
                         PlaceholderColor="#27408b">
                         </Entry>
@@ -59,22 +62,51 @@
                         Margin="10"
                         BorderColor="DarkBlue"
                         CornerRadius="10">
+                        <Picker x:Name="Geschlecht"
+                                Title="Geschlecht"
+                                TextColor="DarkBlue"
+                                SelectedIndex="0">
+                            <Picker.Items>
+                                <x:String>Männlich</x:String>
+                                <x:String>Weiblich</x:String>
+                                <x:String>Divers</x:String>
+                            </Picker.Items>
+                        </Picker>
+                    </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
                         <Entry
+                        x:Name="Passwort"
                         Placeholder="Passwort"
                         TextColor="DarkBlue" 
-                        PlaceholderColor="#27408b">
+                        PlaceholderColor="#27408b"
+                        IsPassword="True">
                         </Entry>
                     </Frame>
+
+                    <!--<Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        x:Name="PasswortWiederholen"
+                        Placeholder="Passwort wiederholen"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b"
+                        IsPassword="True">
+                        </Entry>
+                    </Frame>-->
 
                     <Frame 
                         Margin="10"
                         BorderColor="DarkBlue"
                         CornerRadius="10">
-                        <Entry
-                        Placeholder="Passwort wiederholen"
-                        TextColor="DarkBlue" 
-                        PlaceholderColor="#27408b">
-                        </Entry>
+                        <DatePicker
+                        x:Name="Geburtsdatum"
+                        TextColor="DarkBlue" />
                     </Frame>
                     <Button 
                         Margin="0"
@@ -85,6 +117,7 @@
                         BorderWidth="1.5"
                         CornerRadius="50"
                         Text="Jetzt registrieren"
+                        Clicked="Button_Clicked"
                 ></Button>
                     <Label HorizontalOptions="Center">
                         <Label.FormattedText>

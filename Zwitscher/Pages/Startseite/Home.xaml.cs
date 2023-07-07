@@ -18,6 +18,7 @@ namespace Zwitscher.Pages
 		public List<Post> apiData { get; set; }
 		public Post activePost { get; set; }
 		private PostService PostService = new PostService();
+		private UserService UserService = new UserService();
 
 		public Home ()
 		{
@@ -32,17 +33,31 @@ namespace Zwitscher.Pages
 			commentView.IsVisible = false;
 			postsListView.IsVisible = true;
 			postsListView.ItemsSource = apiData;
-		}
+        }
 
-		private void UpvoteButton_Clicked(object sender, EventArgs e) 
+		private async void UpvoteButton_Clicked(object sender, EventArgs e) 
 		{
 			var post = (Post)((ImageButton)sender).BindingContext;
-            PostService.ManageVote(post.postID, true);
+			try
+			{
+				  await PostService.ManageVote(post.postID, true);
+			}
+			catch (Exception ex)
+			{
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
 		}
-		private void DownvoteButton_Clicked(object sender, EventArgs e)
+		private async void DownvoteButton_Clicked(object sender, EventArgs e)
 		{
 			var post = (Post)((ImageButton)sender).BindingContext;
-            PostService.ManageVote(post.postID, false);
+			try
+			{
+				await PostService.ManageVote(post.postID, false);
+			}
+			catch (Exception ex)
+			{
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
 		}
 		private async void CommentButton_Clicked(object sender, EventArgs e)
 		{
@@ -52,22 +67,43 @@ namespace Zwitscher.Pages
 			activePost = post;
 			commentListView.ItemsSource = await PostService.PostComments(post.postID);
 		}
-		private void DeleteButton_Clicked(object sender, EventArgs e)
+		private async void DeleteButton_Clicked(object sender, EventArgs e)
 		{
             var post = (Post)((ImageButton)sender).BindingContext;
-            PostService.DeletePost(post.postID);
+			try
+			{
+				await PostService.DeletePost(post.postID);
+			}
+			catch (Exception ex)
+			{
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
 			Button_Clicked(sender, e);
         }
 
-		private void ButtonCreateComment_Clicked(object sender, EventArgs e)
+		private async void ButtonCreateComment_Clicked(object sender, EventArgs e)
 		{
-			PostService.AddComment(activePost.postID ,CommentText.Text);
+			try
+			{
+                await PostService.AddComment(activePost.postID, CommentText.Text);
+            }
+            catch (Exception ex)
+			{
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
 		}
 
-        private void DeleteCommentButton_Clicked(object sender, EventArgs e)
+        private async void DeleteCommentButton_Clicked(object sender, EventArgs e)
         {
             var comment = (Comment)((ImageButton)sender).BindingContext;
-            PostService.DeleteComment(activePost.postID,comment.commentId);
+            try
+			{
+                await PostService.DeleteComment(activePost.postID, comment.commentId);
+            }
+            catch (Exception ex)
+			{
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
         }
 
         private void GetPosts(object sender, EventArgs e)

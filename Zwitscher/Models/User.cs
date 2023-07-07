@@ -21,6 +21,7 @@ namespace Zwitscher.Models
     public class LoginUser
     {
         public string Username { get; set; }
+        public string ProfilePicture { get; set; }
         public string RoleName { get; set; }
         public bool Success { get; set; }
     }

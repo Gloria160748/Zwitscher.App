@@ -16,13 +16,15 @@ namespace Zwitscher.Models
         public string userVoteIsUpvote { get; set; }
         public List<string> mediaList { get; set; }
         public string postText { get; set; }
+        public string retweetsPost { get; set; }
     }
 
     public class NewPost
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = "";
         public string TextContent { get; set; }
         public bool IsPublic { get; set; }
-        public string UserId { get; set; }
+        public string UserId { get; set; } = "";
+        public string retweetsID { get; set; } = "";
     }
 }

@@ -27,9 +27,16 @@ namespace Zwitscher
             Navigation.PushAsync(new Login());
         }
 
-        private void ToolbarItem_Clicked_2(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
         {
-            authService.Logout();
+            try
+            {
+                await authService.Logout();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
         }
     }
 }

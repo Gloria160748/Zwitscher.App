@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Net.Http;
 using System.Text;
 using System.Text.Json;
@@ -35,29 +36,46 @@ namespace Zwitscher.Services
             
             foreach (var post in apiData)
             {
-                post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                if (post.user_profilePicture != "")
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                }
+                else
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+                }
+
+                for (int i = 0; i < post.mediaList.Count; i++)
+                {
+                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
+                }
             }
 
             return apiData;
         }
 
-        public async void CreatePost(IFormFile[] files, NewPost post)
+        public async Task<HttpResponseMessage> CreatePost(IFormFile[] files, NewPost post)
         {
-            // TODO: Zur Zeit ist es noch nicht möglich, Dateien mit zu übermitteln
-            var content = new MultipartFormDataContent
+            var request = new HttpRequestMessage(HttpMethod.Post, "API/Posts/Add");
+            var content = new MultipartFormDataContent();
+            for (int i = 0; i < files.Length; i++)
             {
-                { new StringContent(post.TextContent), "TextContent" },
-                { new StringContent(post.IsPublic.ToString()), "IsPublic" },
-                { new StringContent(post.UserId), "UserId" }
-            };
-
-
-            HttpResponseMessage response = await _client.PostAsync("Api/Posts/Add", content);
+                content.Add(new StreamContent(files[i].OpenReadStream()), "files", files[i].FileName);
+            }
+            content.Add(new StringContent(post.TextContent), "TextContent");
+            content.Add(new StringContent(post.IsPublic.ToString()), "IsPublic");
+            content.Add(new StringContent(post.retweetsID), "retweetsID");
+            request.Content = content;
+            var response = await _client.SendAsync(request);
+            response.EnsureSuccessStatusCode();
+            Console.WriteLine(await response.Content.ReadAsStringAsync());
+            return response.EnsureSuccessStatusCode();
         }
 
-        public async void DeletePost(string id)
+        public async Task<HttpResponseMessage> DeletePost(string id)
         {
             HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Remove?id="+id);
+            return response.EnsureSuccessStatusCode();
         }
 
         public async Task<List<Comment>> PostComments(string id)
@@ -68,13 +86,20 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                if (post.user_profilePicture != "")
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                }
+                else
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+                }
             }
 
             return apiData;
         }
 
-         public async void ManageVote(string id, bool IsUpVote)
+         public async Task<HttpResponseMessage> ManageVote(string id, bool IsUpVote)
         {
             var content = new MultipartFormDataContent
             {
@@ -82,9 +107,10 @@ namespace Zwitscher.Services
                 { new StringContent(IsUpVote.ToString()), "IsUpVote" }
             };
             HttpResponseMessage response = await _client.PostAsync("API/Posts/Vote", content);
+            return response.EnsureSuccessStatusCode();
         }
 
-        public async void AddComment(string id, string text)
+        public async Task<HttpResponseMessage> AddComment(string id, string text)
         {
             var content = new MultipartFormDataContent
             {
@@ -92,11 +118,51 @@ namespace Zwitscher.Services
                 { new StringContent(text), "CommentText" }
             };
             HttpResponseMessage response = await _client.PostAsync("API/Posts/Comment/Add", content);
+            return response.EnsureSuccessStatusCode();
         }
 
-        public async void DeleteComment(string postId, string commentId)
+        public async Task<HttpResponseMessage> DeleteComment(string postId, string commentId)
         {
             HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Comment/Remove?postId=" + postId + "&commentId=" + commentId);
+            return response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<List<Comment>> CommentsToComments(string id)
+        {
+            HttpResponseMessage response = await _client.GetAsync("API/Comments/Comments?id=" + id);
+            string content = await response.Content.ReadAsStringAsync();
+            var apiData = JsonSerializer.Deserialize<List<Comment>>(content);
+
+            foreach (var post in apiData)
+            {
+                if (post.user_profilePicture != "")
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                }
+                else
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+                }
+            }
+
+            return apiData;
+        }
+
+        public async Task<HttpResponseMessage> AddCommentToComment(string id, string text)
+        {
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(id), "commentId" },
+                { new StringContent(text), "CommentText" }
+            };
+            HttpResponseMessage response = await _client.PostAsync("API/Comments/Comment/Add", content);
+            return response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<HttpResponseMessage> DeleteCommentToComment(string commentId, string commentToCommentId)
+        {
+            HttpResponseMessage response = await _client.PostAsync("API/Comments/Comment/Remove?commentId=" + commentId + "&commentToRemoveId=" + commentToCommentId, null);
+            return response.EnsureSuccessStatusCode();
         }
     }
 }

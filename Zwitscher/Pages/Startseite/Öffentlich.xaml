@@ -22,7 +22,11 @@
             </Frame>
 
             <Entry x:Name="EntryTextContent" Placeholder="Textinhalt" />
-            <Switch x:Name="SwitchIsPublic" IsToggled="True" />
+            <StackLayout Orientation="Horizontal" >
+                <Label Text="Öffentlich" />
+                <Switch x:Name="SwitchIsPublic" IsToggled="True" />
+            </StackLayout>
+            <Button Text="Bild auswählen" Clicked="ButtonSelectImage_Clicked" />
             <Button Text="Post erstellen" Clicked="ButtonCreatePost_Clicked" />
         </StackLayout>
     </ContentPage.Content>
