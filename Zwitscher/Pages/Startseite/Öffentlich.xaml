@@ -10,16 +10,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             </Frame>
-            <Frame BorderColor="#27408b"
-                   CornerRadius="10">
-                <SearchBar Placeholder="Suche.." 
-                       TextColor="#27408b"
-                       BackgroundColor="Transparent"
-                       PlaceholderColor="#27408b"
-                       HeightRequest="30"
-                       WidthRequest="200"
-                       HorizontalOptions="EndAndExpand"/>
-            </Frame>
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

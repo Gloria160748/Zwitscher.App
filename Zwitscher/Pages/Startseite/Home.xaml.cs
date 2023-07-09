@@ -17,6 +17,14 @@ namespace Zwitscher.Pages
 			InitializeComponent ();
 		}
 
-        
+        private void ImageButton_Clicked(object sender, EventArgs e) // bild hochladen
+        {
+
+        }
+
+        private void Button_Clicked(object sender, EventArgs e) //post erstellen
+        {
+
+        }
     }
 }

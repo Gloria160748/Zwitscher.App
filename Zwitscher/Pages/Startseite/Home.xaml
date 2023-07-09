@@ -4,20 +4,111 @@
              
              x:Class="Zwitscher.Pages.Home">
     <ContentPage.Content>
-        <StackLayout>
+         <ScrollView>
+            <StackLayout>
+                <Frame BorderColor="LightGray" 
+                   CornerRadius="10">
+                    <StackLayout>
+                        <Frame BorderColor="LightBlue" 
+                   CornerRadius="20">
+                            <Entry x:Name="EntryTextContent" VerticalOptions="Start" Placeholder="Textinhalt" PlaceholderColor="#27408b" />
+                        </Frame>
+                        <StackLayout Orientation="Horizontal" >
+                            <Label Text="Öffentlich" />
+                            <Switch x:Name="SwitchIsPublic" IsToggled="True" ThumbColor="LightBlue"/>
+                        </StackLayout>
+                        <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="Start" 
+                                     Clicked="ImageButton_Clicked"/>
+                        <Button Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
+                                Clicked="Button_Clicked"/>
+                    </StackLayout>
+                </Frame>
+                <!--Post anfang-->
             <Frame BorderColor="LightGray"
                    CornerRadius="10">
+                <StackLayout>
+                <!-- Avatar, Profilbild, Datum-->
+                        <StackLayout Orientation="Horizontal" Padding="10">
+                        <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
+                        <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                        <Label Text="Datum" VerticalOptions="Center"></Label>
+                     </StackLayout>
+                    
                 
-                
-                <Label Text="Willkommen auf der Startseite von Zwitscher!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="10"/>
-             </Frame>
-            
-            
-            
+                <!--Text und Bild-->
+                    <StackLayout Orientation="Vertical">
+                        <Label Text="So eine süße Maus" VerticalOptions="Center" TextColor="Black"></Label>
+                        <Image Source="emma.png" HeightRequest="250"></Image>
+                    </StackLayout>
+                        
+                <!--Reaktionsbox-->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
+                        <Label Text="562"  Margin="0,2,-10,0"/>
+                        <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
+                        <Label Text="0"  Margin="0,2,-10,0"/>
+                        <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
+                        <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
+                        <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
 
-        </StackLayout>
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+            <!--Post Ende-->
+             
+             
+             
+            <!--Rezwitscher anfang-->
+            <Frame BorderColor="LightGray"
+                   CornerRadius="10">
+                <StackLayout>
+                    <!-- Avatar, Profilbild, Datum-->
+                    <StackLayout Orientation="Horizontal" Padding="10">
+                        <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
+                        <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                        <Label Text="Datum" VerticalOptions="Center"></Label>
+                         <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
+                        </StackLayout>
+
+                    <!--Rezwitscherkommentar-->
+                        <StackLayout Orientation="Vertical">
+                            <Label Text="Ich will Sie abknutschen" VerticalOptions="Center" TextColor="Black"></Label>
+                        </StackLayout>
+                    
+                    <!--ursprünglicher Beitrag-->
+                        <Frame BorderColor="LightGray" CornerRadius="10">
+                        <StackLayout>
+                                <!-- Avatar, Profilbild, Datum-->
+                            <StackLayout Orientation="Horizontal" Padding="10">
+                                <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
+                                <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                <Label Text="Datum" VerticalOptions="Center"></Label>
+                            </StackLayout>
+                            <!--Text und Bild-->
+                            <StackLayout Orientation="Vertical">
+                                <Label Text="So eine süße Maus" VerticalOptions="Center" TextColor="Black"></Label>
+                                <Image Source="emma.png" HeightRequest="250"></Image>
+                            </StackLayout>
+                        </StackLayout>
+                        </Frame>
+                    
+                    
+                    
+                     <!--Reaktionsbox-->
+                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
+                        <Label Text="0"  Margin="0,2,-10,0" />
+                        <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
+                        <Label Text="0"  Margin="0,2,-10,0"/>
+                        <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
+                        <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
+                        <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
+
+                    </StackLayout>
+                </StackLayout>
+            </Frame>
+
+
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

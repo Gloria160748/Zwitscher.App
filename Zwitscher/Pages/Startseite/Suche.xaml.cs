@@ -10,9 +10,9 @@ using Xamarin.Forms.Xaml;
 namespace Zwitscher.Pages
 {
 	[XamlCompilation(XamlCompilationOptions.Compile)]
-	public partial class Neu : ContentPage
+	public partial class Suche : ContentPage
 	{
-		public Neu ()
+		public Suche ()
 		{
 			InitializeComponent ();
 		}

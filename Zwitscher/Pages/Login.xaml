@@ -22,23 +22,24 @@
         <AbsoluteLayout BackgroundColor="Transparent">
             
             <Frame 
-                   BorderColor="Blue"
+                   BorderColor="LightGray"
                    CornerRadius="10">
                 <FlexLayout Direction="Column"
                     AlignItems="Stretch"
                     JustifyContent="Start">
                     <Frame Margin="10"
-                        CornerRadius="10">
+                        CornerRadius="10"
+                           BorderColor="LightGray">
                         <Label
-                        Text="Melde dich bei Zwitscher! an oder erstelle einen Account."
+                        Text="Melde dich bei Zwitscher an oder erstelle einen Account."
                        FontSize="Medium" TextColor="Black"/>
                      </Frame>
                     <Image Source="zwitscher_logo1.png" 
                            HeightRequest="150"
                            />
                     <Frame Margin="10" 
-                        BorderColor="DarkBlue"
-                        CornerRadius="10">
+                        BorderColor="LightGray"
+                        CornerRadius="20">
                     <Entry 
                         x:Name="txtUsername"
                         Placeholder="Username"
@@ -48,8 +49,8 @@
                     </Frame>
                     <Frame 
                         Margin="10"
-                        BorderColor="DarkBlue"
-                        CornerRadius="10">
+                        BorderColor="LightGray"
+                        CornerRadius="20">
                     <Entry
                         x:Name="txtPasswort"
                         Placeholder="Passwort"
@@ -59,11 +60,10 @@
                     </Entry>
                     </Frame>
                     <Button 
-                        Margin="0"
+                        Margin="80,15,80,15"
                         VerticalOptions="Center"
-                        TextColor="#27408b"
-                        BackgroundColor="Transparent"
-                        BorderColor="DarkBlue"
+                        BackgroundColor="LightBlue" 
+                        TextColor="White"
                         BorderWidth="1.5"
                         CornerRadius="50"
                         Text="Login"
