@@ -90,5 +90,18 @@ namespace Zwitscher.Services
             var apiData = JsonSerializer.Deserialize<LoginUser>(content);
             return apiData;
         }
+
+        public bool IsActiveUser(string username)
+        {
+            if (activeUser == null)
+            {
+                return false;
+            }
+            else if (activeUser.Username == username)
+            {
+                return true;
+            }
+            return false;
+        }
     }
 }

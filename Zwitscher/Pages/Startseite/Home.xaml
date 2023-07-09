@@ -4,189 +4,116 @@
              
              x:Class="Zwitscher.Pages.Home">
     <ContentPage.Content>
-         <ScrollView>
+        <ScrollView>
             <StackLayout>
+
+                <!--Post erstellen-->
                 <Frame BorderColor="LightGray" 
                    CornerRadius="10">
                     <StackLayout>
                         <Frame BorderColor="LightBlue" 
                    CornerRadius="20">
-                            <Entry x:Name="EntryTextContent" VerticalOptions="Start" Placeholder="Textinhalt" PlaceholderColor="#27408b" />
+                            <Entry x:Name="PostText" VerticalOptions="Start" Placeholder="Textinhalt" PlaceholderColor="#27408b" />
                         </Frame>
                         <StackLayout Orientation="Horizontal" >
                             <Label Text="Öffentlich" />
                             <Switch x:Name="SwitchIsPublic" IsToggled="True" ThumbColor="LightBlue"/>
                         </StackLayout>
                         <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="Start" 
-                                     Clicked="ImageButton_Clicked"/>
+                                     Clicked="UploadButton_Clicked"/>
                         <Button Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
-                                Clicked="Button_Clicked"/>
+                                Clicked="CreateButton_Clicked"/>
                     </StackLayout>
                 </Frame>
+
+
                 <!--Post anfang-->
-            <Frame BorderColor="LightGray"
-                   CornerRadius="10">
-                <StackLayout>
-                <!-- Avatar, Profilbild, Datum-->
-                        <StackLayout Orientation="Horizontal" Padding="10">
-                        <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
-                        <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
-                        <Label Text="Datum" VerticalOptions="Center"></Label>
-                     </StackLayout>
-                    
-                
-                <!--Text und Bild-->
-                    <StackLayout Orientation="Vertical">
-                        <Label Text="So eine süße Maus" VerticalOptions="Center" TextColor="Black"></Label>
-                        <Image Source="emma.png" HeightRequest="250"></Image>
-                    </StackLayout>
-                        
-                <!--Reaktionsbox-->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
-                        <Label Text="562"  Margin="0,2,-10,0"/>
-                        <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
-                        <Label Text="0"  Margin="0,2,-10,0"/>
-                        <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
-                        <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
-                        <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
 
-// ---------------------------------------------------------------------------------------------------------------
-                <Label Text="Willkommen auf der Startseite von Zwitscher!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand"
-                Margin="10"/>
-            </Frame>
-            <Button Text="Api Call" Clicked="Button_Clicked" />
-
-            <ListView x:Name="postsListView" HasUnevenRows="True">
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <ViewCell>
-                            <StackLayout Padding="10">
-                                <!-- Profilbild und Name des Nutzers mit dem Datum -->
-                                <StackLayout Orientation="Horizontal">
-                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
-                                    <Label Text="{Binding user_username}" VerticalOptions="Center" Margin="10,0,0,0" />
-                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" Margin="10,0,0,0" />
-                                    <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Clicked="DeleteButton_Clicked" Background="transparent"/>
-                                </StackLayout>
-
-                                <!-- Text des Posts -->
-                                <Label Text="{Binding postText}" Margin="0,10,0,10" />
-
-                                <!-- Bilder aus der Liste -->
-                                <StackLayout Orientation="Horizontal">
-                                    <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="80">
-                                        <CollectionView.ItemsLayout>
-                                            <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
-                                        </CollectionView.ItemsLayout>
-                                        <CollectionView.ItemTemplate>
-                                            <DataTemplate>
-                                                <Image Source="{Binding}" WidthRequest="80" HeightRequest="80" />
-                                            </DataTemplate>
-                                        </CollectionView.ItemTemplate>
-                                    </CollectionView>
-                                </StackLayout>
-
-                                <!-- Box mit Upvote/Downvote-Buttons, Rating und Kommentaranzahl -->
-                                <StackLayout Orientation="Horizontal" HorizontalOptions="EndAndExpand" Margin="0,10,0,0">
-                                    <ImageButton Source="upvote.png" Clicked="UpvoteButton_Clicked" WidthRequest="30" HeightRequest="30" Background="transparent"/>
-                                    <ImageButton Source="downvote.png" Clicked="DownvoteButton_Clicked" WidthRequest="30" HeightRequest="30" Background="transparent"/>
-                                    <Label Text="{Binding rating}" VerticalOptions="Center" Margin="10,0,0,0" />
-                                    <Button Text="{Binding commentCount, StringFormat='{0} Comments'}" VerticalOptions="Center" Margin="10,0,0,0" Clicked="CommentButton_Clicked"/>
-                                </StackLayout>
-
-                            </StackLayout>
-                        </ViewCell>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-            </ListView>
-            <StackLayout x:Name="commentView" IsVisible="false">
-                <ListView x:Name="commentListView" HasUnevenRows="True">
+                <ListView x:Name="postsListView" HasUnevenRows="True">
                     <ListView.ItemTemplate>
                         <DataTemplate>
                             <ViewCell>
-                                <StackLayout Padding="10">
-                                    <!-- Profilbild und Name des Nutzers mit dem Datum -->
-                                    <StackLayout Orientation="Horizontal">
-                                        <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
-                                        <Label Text="{Binding user_username}" VerticalOptions="Center" Margin="10,0,0,0" />
-                                        <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" Margin="10,0,0,0" />
-                                        <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Clicked="DeleteCommentButton_Clicked" Background="transparent" IsVisible="{Binding loggedInUserIsCreator}"/>
-                                    </StackLayout>
+                                <Frame BorderColor="LightGray" CornerRadius="10">
+                                    <StackLayout>
 
-                                    <!-- Text des Posts -->
-                                    <Label Text="{Binding commentText}" Margin="0,10,0,10" />
-                                </StackLayout>
+                                        <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40"></Image>
+                                            <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                            <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                            <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="DeleteButton_Clicked" HorizontalOptions="End"/>
+                                        </StackLayout>
+
+                                        <!--Text und Bilder-->
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                            <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                    <CollectionView.ItemsLayout>
+                                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                    </CollectionView.ItemsLayout>
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </StackLayout>
+
+                                        </StackLayout>
+
+                                        <!--Reaktionsbox-->
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
+                                            <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="UpvoteButton_Clicked"/>
+                                            <Label Text="{Binding rating}"  Margin="-10,2,15,0"/>
+                                            <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="DownvoteButton_Clicked"/>
+                                            <Label Text="{Binding commentCount}"  Margin="0,2,0,0"/>
+                                            <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="CommentButton_Clicked"/>
+                                            <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="RezwitscherButton_Clicked"/>
+                                        </StackLayout>
+
+                                        <!--Rezwitscher-->
+                                        <Frame BorderColor="LightGray" CornerRadius="10" IsVisible="{Binding isRetweet}">
+                                            <StackLayout BindingContext="{Binding RetweetedPost}">
+
+                                                <!-- Avatar, Profilbild, Datum-->
+                                                <StackLayout Orientation="Horizontal" Padding="10">
+                                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40"></Image>
+                                                    <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                                    <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                                </StackLayout>
+
+                                                <!--Text und Bild-->
+                                                <StackLayout Orientation="Vertical">
+                                                    <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                                    <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                        <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                            <CollectionView.ItemsLayout>
+                                                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                            </CollectionView.ItemsLayout>
+                                                            <CollectionView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                                </DataTemplate>
+                                                            </CollectionView.ItemTemplate>
+                                                        </CollectionView>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
 
-                <Entry x:Name="CommentText" Placeholder="Kommentarinhalt" />
-                <Button Text="Commentar posten" Clicked="ButtonCreateComment_Clicked" />
-            </StackLayout>
-
- // ende -------------------------------------------------------------------------------------------------
-
-
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
-            <!--Post Ende-->
-             
-             
-             
-            <!--Rezwitscher anfang-->
-            <Frame BorderColor="LightGray"
-                   CornerRadius="10">
-                <StackLayout>
-                    <!-- Avatar, Profilbild, Datum-->
-                    <StackLayout Orientation="Horizontal" Padding="10">
-                        <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
-                        <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
-                        <Label Text="Datum" VerticalOptions="Center"></Label>
-                         <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
-                        </StackLayout>
-
-                    <!--Rezwitscherkommentar-->
-                        <StackLayout Orientation="Vertical">
-                            <Label Text="Ich will Sie abknutschen" VerticalOptions="Center" TextColor="Black"></Label>
-                        </StackLayout>
-                    
-                    <!--ursprünglicher Beitrag-->
-                        <Frame BorderColor="LightGray" CornerRadius="10">
-                        <StackLayout>
-                                <!-- Avatar, Profilbild, Datum-->
-                            <StackLayout Orientation="Horizontal" Padding="10">
-                                <Image Source="avatar.png" WidthRequest="40" HeightRequest="40"></Image>
-                                <Label Text="Username" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
-                                <Label Text="Datum" VerticalOptions="Center"></Label>
-                            </StackLayout>
-                            <!--Text und Bild-->
-                            <StackLayout Orientation="Vertical">
-                                <Label Text="So eine süße Maus" VerticalOptions="Center" TextColor="Black"></Label>
-                                <Image Source="emma.png" HeightRequest="250"></Image>
-                            </StackLayout>
-                        </StackLayout>
-                        </Frame>
-                    
-                    
-                    
-                     <!--Reaktionsbox-->
-                    <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
-                        <Label Text="0"  Margin="0,2,-10,0" />
-                        <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" />
-                        <Label Text="0"  Margin="0,2,-10,0"/>
-                        <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
-                        <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
-                        <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent"/>
-
-                    </StackLayout>
-                </StackLayout>
-            </Frame>
-
-
+                <!--Post Ende-->
 
             </StackLayout>
         </ScrollView>

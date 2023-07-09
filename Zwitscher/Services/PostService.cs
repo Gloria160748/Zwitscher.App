@@ -16,6 +16,7 @@ namespace Zwitscher.Services
     {
         private HttpClient _client;
         private string baseUrl = AppConfig.ApiUrl;
+        private AuthService authService = new AuthService();
 
         public PostService()
         {
@@ -49,8 +50,38 @@ namespace Zwitscher.Services
                 {
                     post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
                 }
+                post.mediaIncluded = post.mediaList.Count > 0;
+                post.isRetweet = post.retweetsPost != "";
+                post.isOwnPost = authService.IsActiveUser(post.user_username);
+                if (post.isRetweet)
+                {
+                    post.RetweetedPost = await GetSinglePost(post.retweetsPost);
+                }
             }
 
+            return apiData;
+        }
+
+        public async Task<Post> GetSinglePost(string id)
+        {
+            HttpResponseMessage response = await _client.GetAsync("API/Post?id="+id);
+            string content = await response.Content.ReadAsStringAsync();
+            var apiData = JsonSerializer.Deserialize<Post>(content);
+            if (apiData.user_profilePicture != "")
+            {
+                apiData.user_profilePicture = baseUrl + "/Media/" + apiData.user_profilePicture;
+            }
+            else
+            {
+                apiData.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+            }
+            for (int i = 0; i < apiData.mediaList.Count; i++)
+            {
+                apiData.mediaList[i] = baseUrl + "/Media/" + apiData.mediaList[i];
+            }
+            apiData.mediaIncluded = apiData.mediaList.Count > 0;
+            apiData.isRetweet = apiData.retweetsPost != "";
+            apiData.isOwnPost = authService.IsActiveUser(apiData.user_username);
             return apiData;
         }
 

@@ -1,5 +1,10 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Http.Internal;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Net.Http;
 using System.Text;
@@ -17,108 +22,135 @@ namespace Zwitscher.Pages
 	{
 		public List<Post> apiData { get; set; }
 		public Post activePost { get; set; }
+		private List<IFormFile> files = new List<IFormFile>();
 		private PostService PostService = new PostService();
 		private UserService UserService = new UserService();
 
 		public Home ()
 		{
 			InitializeComponent ();
-			
-			OnPropertyChanged("apiData");
 		}
 
-        private void ImageButton_Clicked(object sender, EventArgs e) // bild hochladen
+        protected override async void OnAppearing()
         {
-
+            base.OnAppearing();
+            apiData = await PostService.GetPosts();
+            postsListView.ItemsSource = apiData;
+            OnPropertyChanged("apiData");
         }
 
-        private void Button_Clicked(object sender, EventArgs e) //post erstellen
+        private async void UploadButton_Clicked(object sender, EventArgs e) // bild hochladen
         {
-
-/*
-		private async void Button_Clicked(object sender, EventArgs e)
-		{
-			apiData = await PostService.GetPosts();
-			commentView.IsVisible = false;
-			postsListView.IsVisible = true;
-			postsListView.ItemsSource = apiData;
+            // Hier kannst du die Dateien auswählen
+            await CrossMedia.Current.Initialize();
+            var file = await CrossMedia.Current.PickPhotoAsync();
+            if (file == null)
+                return;
+            files.Add(ConvertToFormFile(file));
         }
 
-		private async void UpvoteButton_Clicked(object sender, EventArgs e) 
+		private async void CreateButton_Clicked(object sender, EventArgs e) //post erstellen
 		{
-			var post = (Post)((ImageButton)sender).BindingContext;
-			try
-			{
-				  await PostService.ManageVote(post.postID, true);
-			}
-			catch (Exception ex)
-			{
-                await DisplayAlert("Alert", ex.Message, "OK");
-            }
-		}
-		private async void DownvoteButton_Clicked(object sender, EventArgs e)
-		{
-			var post = (Post)((ImageButton)sender).BindingContext;
-			try
-			{
-				await PostService.ManageVote(post.postID, false);
-			}
-			catch (Exception ex)
-			{
-                await DisplayAlert("Alert", ex.Message, "OK");
-            }
-		}
-		private async void CommentButton_Clicked(object sender, EventArgs e)
-		{
-			var post = (Post)((Button)sender).BindingContext;
-			postsListView.IsVisible = false;
-			commentView.IsVisible = true;
-			activePost = post;
-			commentListView.ItemsSource = await PostService.PostComments(post.postID);
-		}
-		private async void DeleteButton_Clicked(object sender, EventArgs e)
-		{
-            var post = (Post)((ImageButton)sender).BindingContext;
-			try
-			{
-				await PostService.DeletePost(post.postID);
-			}
-			catch (Exception ex)
-			{
-                await DisplayAlert("Alert", ex.Message, "OK");
-            }
-			Button_Clicked(sender, e);
-        }
+			NewPost post = new NewPost
+            {
+                Id = "",
+                TextContent = PostText.Text,
+                IsPublic = SwitchIsPublic.IsToggled,
+                UserId = "" // Hier kannst du die UserID setzen
+            };
 
-		private async void ButtonCreateComment_Clicked(object sender, EventArgs e)
-		{
-			try
-			{
-                await PostService.AddComment(activePost.postID, CommentText.Text);
-            }
-            catch (Exception ex)
-			{
-                await DisplayAlert("Alert", ex.Message, "OK");
-            }
-		}
-
-        private async void DeleteCommentButton_Clicked(object sender, EventArgs e)
-        {
-            var comment = (Comment)((ImageButton)sender).BindingContext;
+            // Rufe die CreatePost-Methode auf und übergebe die Dateien (IFormFile[]) und den Post (NewPost)
             try
-			{
-                await PostService.DeleteComment(activePost.postID, comment.commentId);
+            {
+                await PostService.CreatePost(files.ToArray(), post);
+                files = new List<IFormFile>();
+                PostText.Text = "";
+                Refresh();
             }
             catch (Exception ex)
-			{
+            {
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
+		}
+
+        private async void UpvoteButton_Clicked(object sender, EventArgs e)
+        {
+            var post = (Post)((ImageButton)sender).BindingContext;
+            try
+            {
+                await PostService.ManageVote(post.postID, true);
+                Refresh();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
+        }
+        private async void DownvoteButton_Clicked(object sender, EventArgs e)
+        {
+            var post = (Post)((ImageButton)sender).BindingContext;
+            try
+            {
+                await PostService.ManageVote(post.postID, false);
+                Refresh();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
+        }
+        private async void CommentButton_Clicked(object sender, EventArgs e)
+        {
+            var post = (Post)((ImageButton)sender).BindingContext;
+            activePost = post;
+            await Navigation.PushAsync(new Kommentare(activePost.postID));
+        }
+        private async void RezwitscherButton_Clicked(object sender, EventArgs e)
+        {
+            var post = (Post)((ImageButton)sender).BindingContext;
+            try
+            {
+                //await PostService.RetweetPost(post.postID);
+                Refresh();
+            }
+            catch (Exception ex)
+            {
                 await DisplayAlert("Alert", ex.Message, "OK");
             }
         }
 
-        private void GetPosts(object sender, EventArgs e)
-		{
-            apiData = PostService.GetPosts().Result;
-            postsListView.ItemsSource = apiData; */
+        private async void DeleteButton_Clicked(object sender, EventArgs e)
+        {
+            var post = (Post)((ImageButton)sender).BindingContext;
+            try
+            {
+                await PostService.DeletePost(post.postID);
+                Refresh();
+            }
+            catch (Exception ex)
+            {
+                await DisplayAlert("Alert", ex.Message, "OK");
+            }
+        }
+
+
+
+        private IFormFile ConvertToFormFile(MediaFile file)
+        {
+            // Erstellen Sie eine neue MemoryStream und kopieren Sie die Daten aus der MediaFile-Stream
+            var memoryStream = new MemoryStream();
+            file.GetStream().CopyTo(memoryStream);
+            memoryStream.Position = 0;
+
+            // Erstellen Sie ein neues FormFile-Objekt mit der MemoryStream und den erforderlichen Metadaten
+            return new FormFile(memoryStream, 0, memoryStream.Length, file.Path, file.Path);
+        }
+
+        private async void Refresh()
+        {
+            apiData = await PostService.GetPosts();
+            postsListView.ItemsSource = apiData;
+            OnPropertyChanged("apiData");
         }
     }
 }

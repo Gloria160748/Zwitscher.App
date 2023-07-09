@@ -17,6 +17,11 @@ namespace Zwitscher.Models
         public List<string> mediaList { get; set; }
         public string postText { get; set; }
         public string retweetsPost { get; set; }
+
+        public bool isOwnPost { get; set; }
+        public bool mediaIncluded { get; set; }
+        public bool isRetweet { get; set; }
+        public Post RetweetedPost { get; set; }
     }
 
     public class NewPost
