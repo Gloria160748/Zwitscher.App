@@ -27,6 +27,15 @@ namespace Zwitscher.Pages
 			OnPropertyChanged("apiData");
 		}
 
+        private void ImageButton_Clicked(object sender, EventArgs e) // bild hochladen
+        {
+
+        }
+
+        private void Button_Clicked(object sender, EventArgs e) //post erstellen
+        {
+
+/*
 		private async void Button_Clicked(object sender, EventArgs e)
 		{
 			apiData = await PostService.GetPosts();
@@ -109,7 +118,7 @@ namespace Zwitscher.Pages
         private void GetPosts(object sender, EventArgs e)
 		{
             apiData = PostService.GetPosts().Result;
-            postsListView.ItemsSource = apiData;
+            postsListView.ItemsSource = apiData; */
         }
     }
 }

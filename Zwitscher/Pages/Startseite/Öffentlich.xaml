@@ -10,24 +10,7 @@
                 VerticalOptions="CenterAndExpand" 
                 HorizontalOptions="CenterAndExpand" />
             </Frame>
-            <Frame BorderColor="#27408b"
-                   CornerRadius="10">
-                <SearchBar Placeholder="Suche.." 
-                       TextColor="#27408b"
-                       BackgroundColor="Transparent"
-                       PlaceholderColor="#27408b"
-                       HeightRequest="30"
-                       WidthRequest="200"
-                       HorizontalOptions="EndAndExpand"/>
-            </Frame>
-
-            <Entry x:Name="EntryTextContent" Placeholder="Textinhalt" />
-            <StackLayout Orientation="Horizontal" >
-                <Label Text="Öffentlich" />
-                <Switch x:Name="SwitchIsPublic" IsToggled="True" />
-            </StackLayout>
-            <Button Text="Bild auswählen" Clicked="ButtonSelectImage_Clicked" />
-            <Button Text="Post erstellen" Clicked="ButtonCreatePost_Clicked" />
+            
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

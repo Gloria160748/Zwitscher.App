@@ -7,33 +7,60 @@
 
     <ContentPage.ToolbarItems>
 
-
+    
         <ToolbarItem Text="zwitscher"
                      IconImageSource="zwitscher_logo1.png"
                      Priority="0"
                      Order="Primary"/>
+        <ToolbarItem Text="Blockieren"
+                     Priority="1"
+                     Order="Secondary"/>
+        
     </ContentPage.ToolbarItems>
+    
     <ContentPage.Content>
         <ScrollView>
-            <AbsoluteLayout>
-                <FlexLayout Direction="Column"
-                    AlignItems="Stretch"
-                    JustifyContent="Start">
-                    <CI:CircleImage WidthRequest="420"
-                            HeightRequest="100"
+            <StackLayout>
+                <!--Benutzername-->
+                
+                <Label FontSize="Large" TextColor="Black" Margin="40,40,20,0" Text="Emma123"/>
+                
+                <!--Profilbild, Follower-->
+                <StackLayout Orientation="Horizontal" >
+                    <!--Ich weiss nicht wie ich avatar.png als Placeholder machen kann-->
+                    <CI:CircleImage 
+                        HeightRequest="100"
                             Aspect="AspectFit"
                             Source="avatar.png"
-                            />
-                    <Frame BorderColor="LightGray"
-                   CornerRadius="10">
-                        <Label HorizontalOptions="Start"
-                                Text="Name"/>
-                        
-                    </Frame>
+                            Margin="40,20,10,0"/>
+                    <!--hier fehlen die Zahlen die sich erhöhen sollen bei einem Follow-->
+                    <Label VerticalOptions="Center"
+                                Text="Beiträge"
+                                Margin="10"/>
+                    
+                    <Label VerticalOptions="Center"
+                                Text="Follower"
+                                Margin="10"/>
                     
 
-                </FlexLayout>
-            </AbsoluteLayout>
+                    <Label VerticalOptions="Center"
+                                Text="Folge ich"
+                           Margin="10"/>
+                </StackLayout>
+                
+                <!--Follow Button-->
+                <Button Text="Folgen" BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15"
+                        Clicked="Button_Clicked"/>
+                
+                <!--Biographie-->
+                <StackLayout>
+                    <Frame BorderColor="LightGray"
+                   CornerRadius="10" Margin="20,0,20,0">
+                        <!--beispieldaten-->
+                        <Label Text="Schreibe hier etwas Interesanntes über dich oder lass es halt, ist mir eigentlich total egal" />
+                    </Frame>
+                </StackLayout>
+            </StackLayout>
         </ScrollView>
     </ContentPage.Content>
 </ContentPage>

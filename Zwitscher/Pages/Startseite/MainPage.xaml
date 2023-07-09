@@ -4,13 +4,13 @@
              x:Class="Zwitscher.MainPage" xmlns:local="clr-namespace:Zwitscher.Pages" 
             Title="Zwitscher"
             BarBackgroundColor="White"
-            BarTextColor="Blue"
+            BarTextColor="#27408b"        
             UnselectedTabColor="Black">
             
     <local:Home Title="Home" />
     <local:Öffentlich Title="Öffentlich"/>
     <local:Trending Title="Trending" />
-    <local:Neu Title="Neu" />
+    <local:Suche Title="Suche" />
 
     
     
@@ -34,7 +34,7 @@
                      Priority="3"
                      Order="Secondary"/>
 
-
+        
     </TabbedPage.ToolbarItems>
 
 
