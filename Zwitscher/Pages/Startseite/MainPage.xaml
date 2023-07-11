@@ -16,6 +16,7 @@
     
     <TabbedPage.ToolbarItems>
         <ToolbarItem Text="Profil"
+                     x:Name="Profilepicture"
                      Clicked="ToolbarItem_Clicked"
                      IconImageSource="avatar.png"
                      Priority="1"
@@ -33,7 +34,11 @@
                      Clicked="ToolbarItem_Clicked_2"
                      Priority="3"
                      Order="Secondary"/>
-
+        <ToolbarItem Text="Über uns"
+                     Clicked="ToolbarItem_Clicked_3"
+                     Priority="4"
+                     Order="Secondary"/>
+        
         
     </TabbedPage.ToolbarItems>
 

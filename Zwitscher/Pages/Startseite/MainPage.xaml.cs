@@ -1,5 +1,6 @@
 ﻿using System;
 using Xamarin.Forms;
+using Zwitscher.Pages;
 using Zwitscher.Services;
 
 namespace Zwitscher
@@ -10,11 +11,20 @@ namespace Zwitscher
         public MainPage()
         {
             InitializeComponent();
+            Profilepicture.IconImageSource = AuthService.profilePicture;
         }
 
-        private void ToolbarItem_Clicked(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Pages.Profil());
+            var activeUser = await authService.GetActiveUser();
+            if (string.IsNullOrEmpty(activeUser.userID))
+            {
+                await Navigation.PushAsync(new Login());
+            }
+            else
+            {
+                await Navigation.PushAsync(new Profil(activeUser.userID));
+            }
         }
 
         private void ToolbarItem_Clicked_1(object sender, EventArgs e)
@@ -32,6 +42,11 @@ namespace Zwitscher
             {
                 await DisplayAlert("Alert", ex.Message, "OK");
             }
+        }
+
+        private void ToolbarItem_Clicked_3(object sender, EventArgs e)
+        {
+            Navigation.PushAsync(new Impressum());
         }
     }
 }

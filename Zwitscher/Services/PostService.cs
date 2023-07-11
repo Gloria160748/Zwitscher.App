@@ -23,7 +23,7 @@ namespace Zwitscher.Services
             _client = AppConfig.GetHttpClient();
         }
 
-         public async Task<List<Post>> GetPosts()
+        public async Task<List<Post>> GetPosts()
         {
 
             if (Connectivity.NetworkAccess != NetworkAccess.Internet)
@@ -34,7 +34,7 @@ namespace Zwitscher.Services
             HttpResponseMessage response = await _client.GetAsync("API/Posts");
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<List<Post>>(content);
-            
+
             foreach (var post in apiData)
             {
                 if (post.user_profilePicture != "")
@@ -64,7 +64,7 @@ namespace Zwitscher.Services
 
         public async Task<Post> GetSinglePost(string id)
         {
-            HttpResponseMessage response = await _client.GetAsync("API/Post?id="+id);
+            HttpResponseMessage response = await _client.GetAsync("API/Post?id=" + id);
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<Post>(content);
             if (apiData.user_profilePicture != "")
@@ -103,9 +103,22 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        public async Task<HttpResponseMessage> EditPost(NewPost post)
+        {
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(post.Id), "postID" },
+                { new StringContent(post.TextContent), "TextContent" },
+                { new StringContent(post.IsPublic.ToString()), "IsPublic" },
+                { new StringContent(post.retweetsID), "retweetsID" }
+            };
+            HttpResponseMessage response = await _client.PostAsync("API/Posts/Edit", content);
+            return response.EnsureSuccessStatusCode();
+        }
+
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
-            HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Remove?id="+id);
+            HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Remove?id=" + id);
             return response.EnsureSuccessStatusCode();
         }
 
@@ -130,7 +143,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
-         public async Task<HttpResponseMessage> ManageVote(string id, bool IsUpVote)
+        public async Task<HttpResponseMessage> ManageVote(string id, bool IsUpVote)
         {
             var content = new MultipartFormDataContent
             {
@@ -149,6 +162,12 @@ namespace Zwitscher.Services
                 { new StringContent(text), "CommentText" }
             };
             HttpResponseMessage response = await _client.PostAsync("API/Posts/Comment/Add", content);
+            return response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<HttpResponseMessage> EditComment(string id, string text)
+        {
+            HttpResponseMessage response = await _client.PostAsync("API/Comments/Edit?id=" + id + "&CommentText=" + text, null);
             return response.EnsureSuccessStatusCode();
         }
 

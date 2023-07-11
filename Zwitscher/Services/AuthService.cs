@@ -5,14 +5,16 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
+using Xamarin.Forms;
 using Zwitscher.Models;
 
 namespace Zwitscher.Services
 {
     public class AuthService
     {
-        private HttpClient _client;
         public static LoginUser activeUser = null;
+        public static string profilePicture = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+        private HttpClient _client;
 
 
         public AuthService()
@@ -41,7 +43,8 @@ namespace Zwitscher.Services
 
             if (apiData != null && apiData.Success)
             {
-                activeUser = apiData;
+                activeUser = await GetActiveUser();
+                profilePicture = AppConfig.ApiUrl + "/Media/" + apiData.ProfilePicture;
             }
 
             return apiData;
@@ -88,6 +91,7 @@ namespace Zwitscher.Services
             var response = await _client.GetAsync("Api/UserDetails");
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<LoginUser>(content);
+            activeUser = apiData;
             return apiData;
         }
 

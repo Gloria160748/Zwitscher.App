@@ -13,8 +13,10 @@
                      Priority="0"
                      Order="Primary"/>
         <ToolbarItem Text="Blockieren"
+                     x:Name="BlockButton"
                      Priority="1"
-                     Order="Secondary"/>
+                     Order="Secondary"
+                     Clicked="BlockierenClicked"/>
         
     </ContentPage.ToolbarItems>
     
@@ -23,43 +25,138 @@
             <StackLayout>
                 <!--Benutzername-->
                 
-                <Label FontSize="Large" TextColor="Black" Margin="40,40,20,0" Text="Emma123"/>
+                <Label x:Name="username" FontSize="Large" TextColor="Black" Margin="40,40,20,0" Text="Loading..."/>
                 
                 <!--Profilbild, Follower-->
                 <StackLayout Orientation="Horizontal" >
-                    <!--Ich weiss nicht wie ich avatar.png als Placeholder machen kann-->
-                    <CI:CircleImage 
+                    <CI:CircleImage x:Name="avatar"
                         HeightRequest="100"
                             Aspect="AspectFit"
                             Source="avatar.png"
                             Margin="40,20,10,0"/>
                     <!--hier fehlen die Zahlen die sich erhöhen sollen bei einem Follow-->
-                    <Label VerticalOptions="Center"
+                    <StackLayout>
+                        <Label VerticalOptions="Center"
                                 Text="Beiträge"
                                 Margin="10"/>
-                    
-                    <Label VerticalOptions="Center"
+                        <Label VerticalOptions="Center"
+                                Text="0"
+                                Margin="30,10"
+                               x:Name="postCount"/>
+                    </StackLayout>
+
+                    <StackLayout>
+                        <Label VerticalOptions="Center"
                                 Text="Follower"
                                 Margin="10"/>
-                    
+                        <Label VerticalOptions="Center"
+                                Text="0"
+                                Margin="30,10"
+                               x:Name="followerCount"/>
+                    </StackLayout>
 
-                    <Label VerticalOptions="Center"
+                    <StackLayout>
+                        <Label VerticalOptions="Center"
                                 Text="Folge ich"
-                           Margin="10"/>
+                                Margin="10"/>
+                        <Label VerticalOptions="Center"
+                                Text="0"
+                                Margin="30,10"
+                               x:Name="followCount"/>
+                    </StackLayout>
                 </StackLayout>
                 
                 <!--Follow Button-->
-                <Button Text="Folgen" BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15"
-                        Clicked="Button_Clicked"/>
-                
+                <Button x:Name="FollowButton" Text="Folgen" BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15"
+                        Clicked="FollowButton_Clicked"/>
+
+                <!--Edit Button-->
+                <Button x:Name="EditButton" Text="Profil Bearbeiten" BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15"
+                        Clicked="EditButton_Clicked" IsVisible="false"/>
+
                 <!--Biographie-->
-                <StackLayout>
+                <StackLayout x:Name="BioFrame">
                     <Frame BorderColor="LightGray"
                    CornerRadius="10" Margin="20,0,20,0">
-                        <!--beispieldaten-->
-                        <Label Text="Schreibe hier etwas Interesanntes über dich oder lass es halt, ist mir eigentlich total egal" />
+                        <Label x:Name="bio" Text="" />
                     </Frame>
                 </StackLayout>
+
+                
+                
+                <!--Beiträge-->
+                <ListView x:Name="postsListView" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame BorderColor="LightGray" CornerRadius="10">
+                                    <StackLayout>
+
+                                        <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
+                                            <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                            <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,20,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                        </StackLayout>
+
+                                        <!--Text und Bilder-->
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                            <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                    <CollectionView.ItemsLayout>
+                                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                    </CollectionView.ItemsLayout>
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </StackLayout>
+
+                                        </StackLayout>
+
+                                        <!--Rezwitscher-->
+                                        <Frame BorderColor="LightGray" CornerRadius="10" IsVisible="{Binding isRetweet}">
+                                            <StackLayout BindingContext="{Binding RetweetedPost}">
+
+                                                <!-- Avatar, Profilbild, Datum-->
+                                                <StackLayout Orientation="Horizontal" Padding="10">
+                                                    <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
+                                                    <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                                    <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                                </StackLayout>
+
+                                                <!--Text und Bild-->
+                                                <StackLayout Orientation="Vertical">
+                                                    <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                                    <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                        <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                            <CollectionView.ItemsLayout>
+                                                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                            </CollectionView.ItemsLayout>
+                                                            <CollectionView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                                </DataTemplate>
+                                                            </CollectionView.ItemTemplate>
+                                                        </CollectionView>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

@@ -1,10 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:CI="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="Zwitscher.Pages.Home">
     <ContentPage.Content>
-        <ScrollView>
+        <ScrollView x:Name="ScrollViewSite">
             <StackLayout>
 
                 <!--Post erstellen-->
@@ -19,9 +18,13 @@
                             <Label Text="Öffentlich" />
                             <Switch x:Name="SwitchIsPublic" IsToggled="True" ThumbColor="LightBlue"/>
                         </StackLayout>
+                        <StackLayout Orientation="Horizontal" x:Name="CreateRezwitscher" IsVisible="false" >
+                            <Label x:Name="RezwitscherLabel" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                            <Button x:Name="DeleteRezwitscher" Clicked="DeleteRezwitscherButton_Clicked" Text="X" BackgroundColor="Transparent" TextColor="Red" FontAttributes="Bold" CornerRadius="10" HorizontalOptions="End"/>
+                        </StackLayout>
                         <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="Start" 
                                      Clicked="UploadButton_Clicked"/>
-                        <Button Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
+                        <Button x:Name="CreateButton" Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
                                 Clicked="CreateButton_Clicked"/>
                     </StackLayout>
                 </Frame>
@@ -38,11 +41,12 @@
 
                                         <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40"></Image>
+                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
                                             <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
                                             <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
-                                            <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
-                                            <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="DeleteButton_Clicked" HorizontalOptions="End"/>
+                                            <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,20,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                            <ImageButton Source="bearbeiten.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="EditButton_Clicked" HorizontalOptions="End"/>
+                                            <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="DeleteButton_Clicked" HorizontalOptions="End"/>
                                         </StackLayout>
 
                                         <!--Text und Bilder-->
@@ -80,7 +84,7 @@
 
                                                 <!-- Avatar, Profilbild, Datum-->
                                                 <StackLayout Orientation="Horizontal" Padding="10">
-                                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40"></Image>
+                                                    <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
                                                     <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
                                                     <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
                                                     <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>

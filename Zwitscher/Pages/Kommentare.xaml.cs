@@ -16,7 +16,9 @@ namespace Zwitscher.Pages
     {
         private string postID;
         private PostService PostService = new PostService();
+        private Comment editComment = null;
         public List<Comment> comments;
+        
         public Kommentare()
         {
             InitializeComponent();
@@ -55,7 +57,17 @@ namespace Zwitscher.Pages
         {
             try
             {
-                await PostService.AddComment(postID, CommentText.Text);
+                if (editComment != null)
+                {
+                    await PostService.EditComment(editComment.commentId, CommentText.Text);
+                    editComment = null;
+                    CreateComment.Text = "Kommentar erstellen";
+                }
+                else
+                {
+                    await PostService.AddComment(postID, CommentText.Text);
+                }
+
                 CommentText.Text = "";
             }
             catch (Exception ex)
@@ -65,6 +77,17 @@ namespace Zwitscher.Pages
             comments = await PostService.PostComments(postID);
             commentListView.ItemsSource = comments;
             OnPropertyChanged("comments");
+        }
+
+        private void EditButton_Clicked(object sender, EventArgs e)
+        {
+            var comment = (Comment)((ImageButton)sender).BindingContext;
+            editComment = comment;
+
+            CommentText.Text = comment.commentText;
+            CreateComment.Text = "Bearbeiten";
+
+            ScrollViewSite.ScrollToAsync(0, 0, true);
         }
     }
 }
