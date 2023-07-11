@@ -41,7 +41,7 @@
 
                                         <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
+                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" WidthRequest="40" Aspect="AspectFit"/>
                                             <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
                                             <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
                                             <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,20,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>

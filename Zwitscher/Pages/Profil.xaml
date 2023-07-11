@@ -7,7 +7,7 @@
 
     <ContentPage.ToolbarItems>
 
-    
+
         <ToolbarItem Text="zwitscher"
                      IconImageSource="zwitscher_logo1.png"
                      Priority="0"
@@ -17,24 +17,25 @@
                      Priority="1"
                      Order="Secondary"
                      Clicked="BlockierenClicked"/>
-        
+
     </ContentPage.ToolbarItems>
-    
+
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
                 <!--Benutzername-->
-                
+
                 <Label x:Name="username" FontSize="Large" TextColor="Black" Margin="40,40,20,0" Text="Loading..."/>
-                
+
                 <!--Profilbild, Follower-->
                 <StackLayout Orientation="Horizontal" >
                     <CI:CircleImage x:Name="avatar"
                         HeightRequest="100"
+                            WidthRequest="100"
                             Aspect="AspectFit"
                             Source="avatar.png"
                             Margin="40,20,10,0"/>
-                    <!--hier fehlen die Zahlen die sich erhöhen sollen bei einem Follow-->
+                    
                     <StackLayout>
                         <Label VerticalOptions="Center"
                                 Text="Beiträge"
@@ -65,7 +66,7 @@
                                x:Name="followCount"/>
                     </StackLayout>
                 </StackLayout>
-                
+
                 <!--Follow Button-->
                 <Button x:Name="FollowButton" Text="Folgen" BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15"
                         Clicked="FollowButton_Clicked"/>
@@ -82,8 +83,8 @@
                     </Frame>
                 </StackLayout>
 
-                
-                
+
+
                 <!--Beiträge-->
                 <ListView x:Name="postsListView" HasUnevenRows="True">
                     <ListView.ItemTemplate>

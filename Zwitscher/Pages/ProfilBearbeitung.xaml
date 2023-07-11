@@ -1,27 +1,25 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Zwitscher.Pages.Registrieren">
-
-    <NavigationPage.TitleView>
-        <Grid>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25" />
-                <ColumnDefinition Width="*" />
-            </Grid.ColumnDefinitions>
-            <Image Margin="-10, -10, -10, -10" Source="zwitscher_logo1.png" HorizontalOptions="CenterAndExpand"  HeightRequest="25" WidthRequest="25" MinimumHeightRequest="25" MinimumWidthRequest="25"  Grid.Row="0" Grid.Column="0"  />
-            <Label Text="Registrieren" FontSize="Title" Grid.Row="0" Grid.Column="1" TextColor="#27408b"/>
-        </Grid>
-    </NavigationPage.TitleView>
-    
-    
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:CI="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
+             x:Class="Zwitscher.Pages.ProfilBearbeitung">
     <ContentPage.Content>
-        <AbsoluteLayout>
+        <ScrollView>
             <Frame BorderColor="Blue"
                    CornerRadius="10">
                 <FlexLayout Direction="Column"
                     AlignItems="Stretch"
                     JustifyContent="Start">
+
+                    <Frame Margin="10" 
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <StackLayout Orientation="Horizontal">
+                            <CI:CircleImage Source="avatar.png" HeightRequest="40" WidthRequest="40" Aspect="AspectFit" x:Name="ProfilePicture"/>
+                            <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="Start" 
+                                     Clicked="UploadButton_Clicked"/>
+                            <Label Text="Profilbild" TextColor="DarkBlue" VerticalOptions="CenterAndExpand" Margin="30,0" FontSize="Medium"/>
+                        </StackLayout>
+                    </Frame>
 
                     <Frame Margin="10" 
                         BorderColor="DarkBlue"
@@ -87,28 +85,28 @@
                         </Entry>
                     </Frame>
 
-                    <!--<Frame 
-                        Margin="10"
-                        BorderColor="DarkBlue"
-                        CornerRadius="10">
-                        <Entry
-                        x:Name="PasswortWiederholen"
-                        Placeholder="Passwort wiederholen"
-                        TextColor="DarkBlue" 
-                        PlaceholderColor="#27408b"
-                        IsPassword="True">
-                        </Entry>
-                    </Frame>-->
-
                     <Frame 
                         Margin="10"
                         BorderColor="DarkBlue"
                         CornerRadius="10">
                         <DatePicker
                         x:Name="Geburtsdatum"
-                        TextColor="DarkBlue" 
+                        TextColor="DarkBlue"
                         Format="dd.MM.yyyy"/>
                     </Frame>
+
+                    <Frame 
+                        Margin="10"
+                        BorderColor="DarkBlue"
+                        CornerRadius="10">
+                        <Entry
+                        x:Name="Biographíe"
+                        Placeholder="Biographie"
+                        TextColor="DarkBlue" 
+                        PlaceholderColor="#27408b">
+                        </Entry>
+                    </Frame>
+                    
                     <Button 
                         Margin="0"
                         VerticalOptions="Center"
@@ -117,22 +115,23 @@
                         BorderColor="DarkBlue"
                         BorderWidth="1.5"
                         CornerRadius="50"
-                        Text="Jetzt registrieren"
+                        Text="Ändern"
                         Clicked="Button_Clicked"
                 ></Button>
-                    <Label HorizontalOptions="Center">
-                        <Label.FormattedText>
-                            <FormattedString>
-                                <Span Text="Du hast schon einen Account?" TextColor="Gray"/>
-                                <Span Text="Hier Anmelden" TextColor="Gray" FontAttributes="Bold" TextDecorations="Underline"/>
-                            </FormattedString>
-                        </Label.FormattedText>
-                        <Label.GestureRecognizers>
-                            <TapGestureRecognizer Tapped="TapGestureRecognizer_Tapped"/>
-                        </Label.GestureRecognizers>
-                    </Label>
+
+                    <Button
+                        Margin="0,20"
+                        VerticalOptions="Center"
+                        TextColor="Red"
+                        BackgroundColor="Transparent"
+                        BorderColor="Red"
+                        BorderWidth="1.5"
+                        CornerRadius="50"
+                        Text="Account Löschen"
+                        Clicked="Delete_Clicked" />
                 </FlexLayout>
             </Frame>
-        </AbsoluteLayout>
+        </ScrollView>
     </ContentPage.Content>
+
 </ContentPage>

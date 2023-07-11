@@ -206,9 +206,19 @@ namespace Zwitscher.Services
 
         public async Task<HttpResponseMessage> EditUser(User user)
         {
-            var response = await _client.PutAsync("API/Users/Edit?userID=" + user.userID + "&LastName=" + user.lastname + "&FirstName=" +
-                user.firstname + "&Username=" + user.username + "&Password=" + user.password + "&Birthday" + user.birthday + "&Biography=" +
-                user.biography + "&Gender=" + user.gender, null);
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(user.userID), "userID" },
+                { new StringContent(user.lastname), "LastName" },
+                { new StringContent(user.firstname), "FirstName" },
+                { new StringContent(user.username), "Username" },
+                { new StringContent(user.password), "Password" },
+                { new StringContent(user.birthday), "Birthday" },
+                { new StringContent(user.biography), "Biography" },
+                { new StringContent(user.gender), "Gender" }
+            };
+
+            var response = await _client.PostAsync("API/Users/Edit", content);
             return response.EnsureSuccessStatusCode();
         }
 

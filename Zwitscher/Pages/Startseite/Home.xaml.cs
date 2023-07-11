@@ -44,12 +44,7 @@ namespace Zwitscher.Pages
 
         private async void UploadButton_Clicked(object sender, EventArgs e) // bild hochladen
         {
-            // Hier kannst du die Dateien auswählen
-            await CrossMedia.Current.Initialize();
-            var file = await CrossMedia.Current.PickPhotoAsync();
-            if (file == null)
-                return;
-            files.Add(ConvertToFormFile(file));
+            files.Add(await MediaConverter.SelectImage());
         }
 
         private async void CreateButton_Clicked(object sender, EventArgs e) //post erstellen
@@ -167,19 +162,6 @@ namespace Zwitscher.Pages
             {
                 await DisplayAlert("Alert", ex.Message, "OK");
             }
-        }
-
-
-
-        private IFormFile ConvertToFormFile(MediaFile file)
-        {
-            // Erstellen Sie eine neue MemoryStream und kopieren Sie die Daten aus der MediaFile-Stream
-            var memoryStream = new MemoryStream();
-            file.GetStream().CopyTo(memoryStream);
-            memoryStream.Position = 0;
-
-            // Erstellen Sie ein neues FormFile-Objekt mit der MemoryStream und den erforderlichen Metadaten
-            return new FormFile(memoryStream, 0, memoryStream.Length, file.Path, file.Path);
         }
 
         private async void Refresh()

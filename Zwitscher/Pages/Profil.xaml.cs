@@ -142,7 +142,7 @@ namespace Zwitscher.Pages
 
         private void EditButton_Clicked(object sender, EventArgs e) //Editbutton
         {
-
+            Navigation.PushAsync(new ProfilBearbeitung(shownUser));
         }
     }
 }

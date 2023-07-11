@@ -29,7 +29,7 @@
 
                                         <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <CI:CircleImage Source="{Binding pbFileName}" HeightRequest="40" Aspect="AspectFit" HorizontalOptions="Start"/>
+                                            <CI:CircleImage Source="{Binding pbFileName}" HeightRequest="40" WidthRequest="40" Aspect="AspectFit" HorizontalOptions="Start"/>
                                             <Label Text="{Binding username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" HorizontalOptions="StartAndExpand"></Label>
                                         </StackLayout>
                                     </StackLayout>
