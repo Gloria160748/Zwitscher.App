@@ -1,12 +1,54 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Zwitscher.Pages.Impressum">
+             x:Class="Zwitscher.Pages.Impressum"
+             Title="Über uns">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="zwitscher"
+                     IconImageSource="zwitscher_logo1.png"
+                     Priority="0"
+                     Order="Primary"/>
+    </ContentPage.ToolbarItems>
+
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <ScrollView>
+            <StackLayout>
+                <Frame BorderColor="LightGray" CornerRadius="10">
+                    <StackLayout>
+                        <Image Source="zwitscher_logo1.png" HeightRequest="100" WidthRequest="100" HorizontalOptions="Center" />
+                        <Label Text="Zwitscher" FontSize="Large" HorizontalOptions="Center" />
+                        <Label Text="Version 1.0" HorizontalOptions="Center" />
+                        <Label Text="© 2023" HorizontalOptions="Center" />
+                        <Label Text="Made in Germany" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="10">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="ImpressumClicked" />
+                    </Frame.GestureRecognizers>
+                    <StackLayout>
+                        <Label Text="Impressum" FontSize="Large" HorizontalOptions="Center" />
+                        <Label x:Name="ImpressumView" IsVisible="False" />
+                    </StackLayout>
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="10">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="DatenschutzClicked" />
+                    </Frame.GestureRecognizers>
+                    <StackLayout>
+                        <Label Text="Datenschutz" FontSize="Large" HorizontalOptions="Center" />
+                        <Label x:Name="DatenschutzView" IsVisible="False" />
+                    </StackLayout>
+                </Frame>
+                <Frame BorderColor="LightGray" CornerRadius="10">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Tapped="KontaktClicked" />
+                    </Frame.GestureRecognizers>
+                    <StackLayout>
+                        <Label Text="Kontakt" FontSize="Large" HorizontalOptions="Center" />
+                    </StackLayout>
+                </Frame>
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

@@ -12,7 +12,7 @@ namespace Zwitscher
 
         // Über diese Variable besteht die Möglichkeit, die Video-Funktionalität zu deaktivieren.
         // Gerade bei der Simulation auf einem Emulator kann es sonst zu Problemen kommen, wenn zu viele Videos gleichzeitig abgespielt werden.
-        public static bool disableVideo = true;
+        public static bool disableVideo = false;
 
         public static HttpClient GetHttpClient()
         {

@@ -9,7 +9,7 @@ namespace Zwitscher.Models
         public string postID { get; set; }
         public string user_username { get; set; }
         public string user_profilePicture { get; set; }
-        public DateTime createdDate { get; set; }
+        public string createdDate { get; set; }
         public int rating { get; set; }
         public int commentCount { get; set; }
         public bool currentUserVoted { get; set; }

@@ -194,6 +194,10 @@ namespace Zwitscher.Pages
 
         private async void DeleteButton_Clicked(object sender, EventArgs e)
         {
+            bool answer = await DisplayAlert("Post löschen", "Möchtest du den Post wirklich löschen?", "Ja", "Nein");
+
+            if (!answer) return;
+
             var post = (Post)((ImageButton)sender).BindingContext;
             try
             {
