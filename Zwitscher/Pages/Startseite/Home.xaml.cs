@@ -35,16 +35,17 @@ namespace Zwitscher.Pages
             InitializeComponent();
         }
 
+        // Laden der Posts beim Start der Seite
         protected override async void OnAppearing()
         {
             base.OnAppearing();
             apiData = await PostService.GetPosts();
             postsListView.ItemsSource = apiData;
-            //MediaElement.AutoPlayProperty.Equals(false);
             OnPropertyChanged("apiData");
         }
 
-        private async void UploadButton_Clicked(object sender, EventArgs e) // bild hochladen
+        // Button ermöglicht hochladen von Bildern und Videos
+        private async void UploadButton_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Datei hochladen", "Möchtest du ein Bild oder ein Video hochladen?", "Bild", "Video");
             if (answer)
@@ -71,6 +72,7 @@ namespace Zwitscher.Pages
             // Rufe die CreatePost-Methode auf und übergebe die Dateien (IFormFile[]) und den Post (NewPost)
             try
             {
+                // Wenn ein Post bearbeitet wird, wird der Post mit der ID des bearbeiteten Posts erstellt
                 if (editPost != null)
                 {
                     post.Id = editPost.postID;
@@ -86,7 +88,7 @@ namespace Zwitscher.Pages
                     editPost = null;
                     CreateButton.Text = "Post erstellen";
                 }
-                else
+                else // Wenn kein Post bearbeitet wird, wird ein neuer Post erstellt
                 {
                     await PostService.CreatePost(files.ToArray(), post);
                 }
@@ -108,6 +110,7 @@ namespace Zwitscher.Pages
             CreateRezwitscher.IsVisible = false;
         }
 
+        // Löscht die Medien aus einem Post
         private async void DeleteMediaButton_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Datei löschen", "Möchtest du die Medien des Posts wirklich löschen?", "Ja", "Nein");

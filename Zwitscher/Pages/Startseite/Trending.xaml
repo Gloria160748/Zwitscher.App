@@ -1,15 +1,146 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:xct="http://xamarin.com/schemas/2020/toolkit"
+             xmlns:CI="clr-namespace:ImageCircle.Forms.Plugin.Abstractions;assembly=ImageCircle.Forms.Plugin"
              x:Class="Zwitscher.Pages.Trending">
     <ContentPage.Content>
-        <StackLayout>
-            <Frame BorderColor="LightGray"
+        <ScrollView x:Name="ScrollViewSite">
+            <StackLayout>
+
+                <!--Post erstellen-->
+                <Frame BorderColor="LightGray" 
                    CornerRadius="10">
-                <Label Text="Entdecke die Trends bei Zwitscher!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-            </Frame>
-        </StackLayout>
+                    <StackLayout>
+                        <Frame BorderColor="LightBlue" 
+                   CornerRadius="20">
+                            <Entry x:Name="PostText" VerticalOptions="Start" Placeholder="Textinhalt" PlaceholderColor="#27408b" />
+                        </Frame>
+                        <StackLayout Orientation="Horizontal" >
+                            <Label Text="Öffentlich"/>
+                            <Switch x:Name="SwitchIsPublic" IsToggled="True" ThumbColor="LightBlue" HorizontalOptions="EndAndExpand"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal" x:Name="CreateRezwitscher" IsVisible="false" >
+                            <Label x:Name="RezwitscherLabel" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                            <Button x:Name="DeleteRezwitscher" Clicked="DeleteRezwitscherButton_Clicked" Text="X" BackgroundColor="Transparent" TextColor="Red" FontAttributes="Bold" CornerRadius="10" HorizontalOptions="End"/>
+                        </StackLayout>
+                        <StackLayout Orientation="Horizontal">
+                            <Label Text="Medien Hochladen" VerticalOptions="Center" Margin="0,0" HorizontalOptions="StartAndExpand"/>
+                            <Button x:Name="DeleteMedia" Clicked="DeleteMediaButton_Clicked" Text="X" WidthRequest="30" TextColor="Red" FontAttributes="Bold" BackgroundColor="Transparent" CornerRadius="10" HorizontalOptions="End"/>
+                            <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="End" 
+                                     Clicked="UploadButton_Clicked"/>
+                        </StackLayout>
+                        <Button x:Name="CreateButton" Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
+                                Clicked="CreateButton_Clicked"/>
+                    </StackLayout>
+                </Frame>
+
+
+                <!--Post anfang-->
+
+                <ListView x:Name="postsListView" HasUnevenRows="True">
+                    <ListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <Frame BorderColor="LightGray" CornerRadius="10">
+                                    <StackLayout>
+
+                                        <!-- Avatar, Profilbild, Datum, Rezwitscher?-->
+                                        <StackLayout Orientation="Horizontal" Padding="10">
+                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" WidthRequest="40" Aspect="AspectFit"/>
+                                            <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                            <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                            <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,20,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                            <ImageButton Source="bearbeiten.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="EditButton_Clicked" HorizontalOptions="End"/>
+                                            <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding isOwnPost}" Clicked="DeleteButton_Clicked" HorizontalOptions="End"/>
+                                        </StackLayout>
+
+                                        <!--Text und Bilder-->
+                                        <StackLayout Orientation="Vertical">
+                                            <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                            <!--Bilder-->
+                                            <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                    <CollectionView.ItemsLayout>
+                                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                    </CollectionView.ItemsLayout>
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </StackLayout>
+
+                                            <!--Videos-->
+                                            <StackLayout Orientation="Horizontal" IsVisible="{Binding videoIncluded}">
+                                                <CollectionView ItemsSource="{Binding videoList}" HeightRequest="250">
+                                                    <CollectionView.ItemsLayout>
+                                                        <LinearItemsLayout Orientation="Horizontal" ItemSpacing="25" />
+                                                    </CollectionView.ItemsLayout>
+                                                    <CollectionView.ItemTemplate>
+                                                        <DataTemplate>
+                                                            <xct:MediaElement Source="{Binding}" WidthRequest="350" HeightRequest="250" AutoPlay="False" Aspect="AspectFit"/>
+                                                        </DataTemplate>
+                                                    </CollectionView.ItemTemplate>
+                                                </CollectionView>
+                                            </StackLayout>
+
+                                        </StackLayout>
+
+                                        <!--Reaktionsbox-->
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Margin="30,30,0,0" >
+                                            <ImageButton Source="upvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="UpvoteButton_Clicked"/>
+                                            <Label Text="{Binding rating}"  Margin="-10,2,15,0"/>
+                                            <ImageButton Source="downvote.png"  WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="DownvoteButton_Clicked"/>
+                                            <Label Text="{Binding commentCount}"  Margin="0,2,0,0"/>
+                                            <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="CommentButton_Clicked"/>
+                                            <ImageButton Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" Clicked="RezwitscherButton_Clicked"/>
+                                        </StackLayout>
+
+                                        <!--Rezwitscher-->
+                                        <Frame BorderColor="LightGray" CornerRadius="10" IsVisible="{Binding isRetweet}">
+                                            <StackLayout BindingContext="{Binding RetweetedPost}">
+
+                                                <!-- Avatar, Profilbild, Datum-->
+                                                <StackLayout Orientation="Horizontal" Padding="10">
+                                                    <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" Aspect="AspectFit"/>
+                                                    <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold"></Label>
+                                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center"></Label>
+                                                    <Image Source="rezwitscher.png" WidthRequest="30" HeightRequest="30" Margin="0,0,35,0" BackgroundColor="Transparent" IsVisible="{Binding isRetweet}"/>
+                                                </StackLayout>
+
+                                                <!--Text und Bild-->
+                                                <StackLayout Orientation="Vertical">
+                                                    <Label Text="{Binding postText}" VerticalOptions="Center" TextColor="Black"></Label>
+
+                                                    <StackLayout Orientation="Horizontal" IsVisible="{Binding mediaIncluded}">
+                                                        <CollectionView ItemsSource="{Binding mediaList}" HeightRequest="250">
+                                                            <CollectionView.ItemsLayout>
+                                                                <LinearItemsLayout Orientation="Horizontal" ItemSpacing="5" />
+                                                            </CollectionView.ItemsLayout>
+                                                            <CollectionView.ItemTemplate>
+                                                                <DataTemplate>
+                                                                    <Image Source="{Binding}" WidthRequest="250" HeightRequest="250" />
+                                                                </DataTemplate>
+                                                            </CollectionView.ItemTemplate>
+                                                        </CollectionView>
+                                                    </StackLayout>
+
+                                                </StackLayout>
+                                            </StackLayout>
+                                        </Frame>
+                                    </StackLayout>
+                                </Frame>
+                            </ViewCell>
+                        </DataTemplate>
+                    </ListView.ItemTemplate>
+                </ListView>
+
+                <!--Post Ende-->
+
+            </StackLayout>
+        </ScrollView>
     </ContentPage.Content>
 </ContentPage>

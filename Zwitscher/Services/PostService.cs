@@ -24,6 +24,7 @@ namespace Zwitscher.Services
             _client = AppConfig.GetHttpClient();
         }
 
+        // Laden der Posts für die Startseite
         public async Task<List<Post>> GetPosts()
         {
 
@@ -33,6 +34,94 @@ namespace Zwitscher.Services
             }
 
             HttpResponseMessage response = await _client.GetAsync("API/Posts");
+            string content = await response.Content.ReadAsStringAsync();
+            var apiData = JsonSerializer.Deserialize<List<Post>>(content);
+
+            foreach (var post in apiData)
+            {
+                if (post.user_profilePicture != "")
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                }
+                else
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+                }
+
+                for (int i = 0; i < post.mediaList.Count; i++)
+                {
+                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
+                }
+
+                post.videoList = MediaConverter.GetVideoPath(post.mediaList);
+                post.videoIncluded = post.videoList.Count > 0;
+                post.mediaList = MediaConverter.GetImagePath(post.mediaList);
+                post.mediaIncluded = post.mediaList.Count > 0;
+                post.isRetweet = post.retweetsPost != "";
+                post.isOwnPost = authService.IsActiveUser(post.user_username);
+                if (post.isRetweet)
+                {
+                    post.RetweetedPost = await GetSinglePost(post.retweetsPost);
+                }
+            }
+
+            return apiData;
+        }
+
+        // Laden der Öffentlichen Posts
+        public async Task<List<Post>> GetPostsPublic()
+        {
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                return null;
+            }
+
+            HttpResponseMessage response = await _client.GetAsync("API/OnlyPublicPosts");
+            string content = await response.Content.ReadAsStringAsync();
+            var apiData = JsonSerializer.Deserialize<List<Post>>(content);
+
+            foreach (var post in apiData)
+            {
+                if (post.user_profilePicture != "")
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
+                }
+                else
+                {
+                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
+                }
+
+                for (int i = 0; i < post.mediaList.Count; i++)
+                {
+                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
+                }
+
+                post.videoList = MediaConverter.GetVideoPath(post.mediaList);
+                post.videoIncluded = post.videoList.Count > 0;
+                post.mediaList = MediaConverter.GetImagePath(post.mediaList);
+                post.mediaIncluded = post.mediaList.Count > 0;
+                post.isRetweet = post.retweetsPost != "";
+                post.isOwnPost = authService.IsActiveUser(post.user_username);
+                if (post.isRetweet)
+                {
+                    post.RetweetedPost = await GetSinglePost(post.retweetsPost);
+                }
+            }
+
+            return apiData;
+        }
+
+        // Laden der Trending Posts
+        public async Task<List<Post>> GetPostsTrending()
+        {
+
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                return null;
+            }
+
+            HttpResponseMessage response = await _client.GetAsync("API/PostsSortedByRating");
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<List<Post>>(content);
 
