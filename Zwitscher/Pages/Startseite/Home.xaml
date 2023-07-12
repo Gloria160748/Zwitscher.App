@@ -23,8 +23,9 @@
                             <Button x:Name="DeleteRezwitscher" Clicked="DeleteRezwitscherButton_Clicked" Text="X" BackgroundColor="Transparent" TextColor="Red" FontAttributes="Bold" CornerRadius="10" HorizontalOptions="End"/>
                         </StackLayout>
                         <StackLayout Orientation="Horizontal">
-                            <Label Text="Medien Hochladen" VerticalOptions="Center" Margin="0,0"/>
-                            <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="EndAndExpand" 
+                            <Label Text="Medien Hochladen" VerticalOptions="Center" Margin="0,0" HorizontalOptions="StartAndExpand"/>
+                            <Button x:Name="DeleteMedia" Clicked="DeleteMediaButton_Clicked" Text="X" WidthRequest="30" TextColor="Red" FontAttributes="Bold" BackgroundColor="Transparent" CornerRadius="10" HorizontalOptions="End"/>
+                            <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="End" 
                                      Clicked="UploadButton_Clicked"/>
                         </StackLayout>
                         <Button x:Name="CreateButton" Text="Post erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 

@@ -42,7 +42,7 @@
                                         <!-- Profilbild und Name des Nutzers mit dem Datum -->
 
                                         <StackLayout Orientation="Horizontal" Padding="10">
-                                            <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
+                                            <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" WidthRequest="40" Aspect="AspectFit"/>
                                             <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" />
                                             <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
                                             <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" Clicked="CommentButton_Clicked" HorizontalOptions="End"/>
@@ -64,7 +64,7 @@
                                                                 <!-- Profilbild und Name des Nutzers mit dem Datum -->
 
                                                                 <StackLayout Orientation="Horizontal" Padding="10">
-                                                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
+                                                                    <CI:CircleImage Source="{Binding user_profilePicture}" HeightRequest="40" WidthRequest="40" Aspect="AspectFit"/>
                                                                     <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" />
                                                                     <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
                                                                     <ImageButton Source="bearbeiten.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding loggedInUserIsCreator}" Clicked="EditButton_Clicked" HorizontalOptions="End"/>

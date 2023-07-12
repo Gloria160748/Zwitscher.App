@@ -75,6 +75,14 @@ namespace Zwitscher.Pages
                 {
                     post.Id = editPost.postID;
                     await PostService.EditPost(post);
+                    try 
+                    {
+                        await PostService.AddMediaToPost(post.Id,files.ToArray());
+                    } 
+                    catch (Exception ex) 
+                    {
+                        await DisplayAlert("Alert", ex.Message, "OK");
+                    }
                     editPost = null;
                     CreateButton.Text = "Post erstellen";
                 }
@@ -98,6 +106,30 @@ namespace Zwitscher.Pages
         {
             retweetId = "";
             CreateRezwitscher.IsVisible = false;
+        }
+
+        private async void DeleteMediaButton_Clicked(object sender, EventArgs e)
+        {
+            bool answer = await DisplayAlert("Datei löschen", "Möchtest du die Medien des Posts wirklich löschen?", "Ja", "Nein");
+            if (answer)
+            {
+                files = new List<IFormFile>();
+                if (editPost != null)
+                {
+                    editPost.mediaList = new List<string>();
+                    editPost.videoList = new List<string>();
+                    editPost.mediaIncluded = false;
+                    editPost.videoIncluded = false;
+                    try
+                    {
+                        await PostService.RemoveMediaFromPost(editPost.postID);
+                    }
+                    catch (Exception ex)
+                    {
+                        await DisplayAlert("Alert", ex.Message, "OK");
+                    }
+                }
+            }
         }
 
         private async void UpvoteButton_Clicked(object sender, EventArgs e)

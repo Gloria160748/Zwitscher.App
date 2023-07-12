@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Net.Http;
+using System.Runtime.InteropServices.ComTypes;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -222,6 +223,34 @@ namespace Zwitscher.Services
         public async Task<HttpResponseMessage> DeleteCommentToComment(string commentId, string commentToCommentId)
         {
             HttpResponseMessage response = await _client.PostAsync("API/Comments/Comment/Remove?commentId=" + commentId + "&commentToRemoveId=" + commentToCommentId, null);
+            return response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<HttpResponseMessage> AddMediaToPost(string id, IFormFile[] files)
+        {
+            var content = new MultipartFormDataContent
+            {
+                { new StringContent(id), "postID" }
+            };
+            for (int i = 0; i < files.Length; i++)
+            {
+                content.Add(new StreamContent(files[i].OpenReadStream()), "files", files[i].FileName);
+            }
+
+            HttpResponseMessage response = await _client.PostAsync("API/Posts/Media/Add", content);
+
+            return response.EnsureSuccessStatusCode();
+        }
+
+        public async Task<HttpResponseMessage> RemoveMediaFromPost(string postId)
+        {
+            HttpResponseMessage response = await _client.GetAsync("API/Post?id=" + postId);
+            string content = await response.Content.ReadAsStringAsync();
+            var apiData = JsonSerializer.Deserialize<Post>(content);
+            foreach (var media in apiData.mediaList)
+            {
+                response = await _client.PostAsync("API/Posts/Media/Remove?postID=" + postId + "&mediaToRemoveId=" + media.Split('.')[0], null);
+            }
             return response.EnsureSuccessStatusCode();
         }
     }
