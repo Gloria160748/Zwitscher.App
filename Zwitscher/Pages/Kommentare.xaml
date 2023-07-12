@@ -24,6 +24,10 @@
                    CornerRadius="20">
                             <Entry x:Name="CommentText" VerticalOptions="Start" Placeholder="Kommentarinhalt" PlaceholderColor="#27408b" />
                         </Frame>
+                        <StackLayout Orientation="Horizontal" x:Name="CreateRecomment" IsVisible="false" >
+                            <Label x:Name="RecommentLabel" HorizontalOptions="StartAndExpand" VerticalOptions="Center"/>
+                            <Button x:Name="DeleteRecomment" Clicked="DeleteRecommentButton_Clicked" Text="X" BackgroundColor="Transparent" TextColor="Red" FontAttributes="Bold" CornerRadius="10" HorizontalOptions="End"/>
+                        </StackLayout>
                         <Button x:Name="CreateComment" Text="Kommentar erstellen"  BackgroundColor="LightBlue" TextColor="White" CornerRadius="10" Margin="100,0,100,15" 
                                 Clicked="ButtonCreateComment_Clicked"/>
                     </StackLayout>
@@ -41,21 +45,47 @@
                                             <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
                                             <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" />
                                             <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
+                                            <ImageButton Source="kommentar.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" Clicked="CommentButton_Clicked" HorizontalOptions="End"/>
                                             <ImageButton Source="bearbeiten.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding loggedInUserIsCreator}" Clicked="EditButton_Clicked" HorizontalOptions="End"/>
                                             <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" Clicked="DeleteCommentButton_Clicked" Background="transparent" IsVisible="{Binding loggedInUserIsCreator}"/>
                                         </StackLayout>
 
 
-                                        <!-- Text des Posts -->
+                                        <!-- Text des Kommentares -->
                                         <Label Text="{Binding commentText}" VerticalOptions="Center" TextColor="Black"/>
+
+                                        <!-- Kommentare auf den Kommentar -->
+                                        <ListView x:Name="commentToCommentListView" HasUnevenRows="True" ItemsSource="{Binding Comments}" IsVisible="{Binding hasComments}" HeightRequest="200">
+                                            <ListView.ItemTemplate>
+                                                <DataTemplate>
+                                                    <ViewCell>
+                                                        <Frame BorderColor="LightGray" CornerRadius="10">
+                                                            <StackLayout Padding="10">
+                                                                <!-- Profilbild und Name des Nutzers mit dem Datum -->
+
+                                                                <StackLayout Orientation="Horizontal" Padding="10">
+                                                                    <Image Source="{Binding user_profilePicture}" WidthRequest="40" HeightRequest="40" />
+                                                                    <Label Text="{Binding user_username}" TextColor="Black" VerticalOptions="Center" FontSize="Small" FontAttributes="Bold" />
+                                                                    <Label Text="{Binding createdDate, StringFormat='{0:dd.MM.yyyy}'}" VerticalOptions="Center" />
+                                                                    <ImageButton Source="bearbeiten.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" BackgroundColor="Transparent" IsVisible="{Binding loggedInUserIsCreator}" Clicked="EditButton_Clicked" HorizontalOptions="End"/>
+                                                                    <ImageButton Source="delete.png" WidthRequest="30" HeightRequest="30" Margin="0,0,0,0" Clicked="DeleteCommentButton_Clicked" Background="transparent" IsVisible="{Binding loggedInUserIsCreator}"/>
+                                                                </StackLayout>
+
+
+                                                                <!-- Text des Kommentares -->
+                                                                <Label Text="{Binding commentText}" VerticalOptions="Center" TextColor="Black"/>
+                                                            </StackLayout>
+                                                        </Frame>
+                                                    </ViewCell>
+                                                </DataTemplate>
+                                            </ListView.ItemTemplate>
+                                        </ListView>
                                     </StackLayout>
                                 </Frame>
                             </ViewCell>
                         </DataTemplate>
                     </ListView.ItemTemplate>
                 </ListView>
-
-                
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

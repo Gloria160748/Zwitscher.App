@@ -21,6 +21,15 @@ namespace Zwitscher.Services
             return ConvertToFormFile(file);
         }
 
+        public async static Task<IFormFile> SelectVideo()
+        {
+            await CrossMedia.Current.Initialize();
+            var file = await CrossMedia.Current.PickVideoAsync();
+            if (file == null)
+                return null;
+            return ConvertToFormFile(file);
+        }
+
         public static IFormFile ConvertToFormFile(MediaFile file)
         {
             // Erstellen Sie eine neue MemoryStream und kopieren Sie die Daten aus der MediaFile-Stream
@@ -30,6 +39,36 @@ namespace Zwitscher.Services
 
             // Erstellen Sie ein neues FormFile-Objekt mit der MemoryStream und den erforderlichen Metadaten
             return new FormFile(memoryStream, 0, memoryStream.Length, file.Path, file.Path);
+        }
+
+        public static List<string> GetVideoPath(List<string> mediaStrings)
+        {
+            if (AppConfig.disableVideo)
+            {
+                return new List<string>();
+            }
+            var videoPath = new List<string>();
+            foreach (var mediaString in mediaStrings)
+            {
+                if (mediaString.Contains(".mp4"))
+                {
+                    videoPath.Add(mediaString);
+                }
+            }
+            return videoPath;
+        }
+
+        public static List<string> GetImagePath(List<string> mediaStrings)
+        {
+            var imagePath = new List<string>();
+            foreach (var mediaString in mediaStrings)
+            {
+                if (mediaString.Contains(".jpg") || mediaString.Contains(".png"))
+                {
+                    imagePath.Add(mediaString);
+                }
+            }
+            return imagePath;
         }
     }
 }

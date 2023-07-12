@@ -20,6 +20,8 @@ namespace Zwitscher.Models
 
         public bool isOwnPost { get; set; }
         public bool mediaIncluded { get; set; }
+        public bool videoIncluded { get; set; }
+        public List<string> videoList { get; set; }
         public bool isRetweet { get; set; }
         public Post RetweetedPost { get; set; }
     }

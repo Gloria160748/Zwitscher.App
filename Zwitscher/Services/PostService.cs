@@ -50,6 +50,10 @@ namespace Zwitscher.Services
                 {
                     post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
                 }
+
+                post.videoList = MediaConverter.GetVideoPath(post.mediaList);
+                post.videoIncluded = post.videoList.Count > 0;
+                post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
                 post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);
@@ -79,6 +83,9 @@ namespace Zwitscher.Services
             {
                 apiData.mediaList[i] = baseUrl + "/Media/" + apiData.mediaList[i];
             }
+            apiData.videoList = MediaConverter.GetVideoPath(apiData.mediaList);
+            apiData.videoIncluded = apiData.videoList.Count > 0;
+            apiData.mediaList = MediaConverter.GetImagePath(apiData.mediaList);
             apiData.mediaIncluded = apiData.mediaList.Count > 0;
             apiData.isRetweet = apiData.retweetsPost != "";
             apiData.isOwnPost = authService.IsActiveUser(apiData.user_username);
@@ -130,6 +137,9 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
+                post.Comments = await CommentsToComments(post.commentId);
+                post.hasComments = post.Comments.Count > 0;
+
                 if (post.user_profilePicture != "")
                 {
                     post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;

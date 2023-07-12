@@ -84,6 +84,9 @@ namespace Zwitscher.Services
                 {
                     post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
                 }
+                post.videoList = MediaConverter.GetVideoPath(post.mediaList);
+                post.videoIncluded = post.videoList.Count > 0;
+                post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
                 post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);

@@ -9,6 +9,7 @@ using System.Linq;
 using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
+using Xamarin.CommunityToolkit.UI.Views;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -39,12 +40,21 @@ namespace Zwitscher.Pages
             base.OnAppearing();
             apiData = await PostService.GetPosts();
             postsListView.ItemsSource = apiData;
+            //MediaElement.AutoPlayProperty.Equals(false);
             OnPropertyChanged("apiData");
         }
 
         private async void UploadButton_Clicked(object sender, EventArgs e) // bild hochladen
         {
-            files.Add(await MediaConverter.SelectImage());
+            bool answer = await DisplayAlert("Datei hochladen", "Möchtest du ein Bild oder ein Video hochladen?", "Bild", "Video");
+            if (answer)
+            {
+                files.Add(await MediaConverter.SelectImage());
+            }
+            else
+            {
+                files.Add(await MediaConverter.SelectVideo());
+            }
         }
 
         private async void CreateButton_Clicked(object sender, EventArgs e) //post erstellen
