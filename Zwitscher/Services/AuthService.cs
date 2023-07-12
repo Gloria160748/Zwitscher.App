@@ -14,7 +14,7 @@ namespace Zwitscher.Services
     {
         public static LoginUser activeUser = null;
         public static string profilePicture = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
-        private HttpClient _client;
+        private readonly HttpClient _client;
 
 
         public AuthService()

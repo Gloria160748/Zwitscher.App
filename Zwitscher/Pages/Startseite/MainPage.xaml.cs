@@ -7,11 +7,26 @@ namespace Zwitscher
 {
     public partial class MainPage : TabbedPage
     {
-        AuthService authService = new AuthService();
+        private readonly AuthService authService = new AuthService();
         public MainPage()
         {
             InitializeComponent();
             Profilepicture.IconImageSource = AuthService.profilePicture;
+        }
+
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            if (AuthService.activeUser != null && AuthService.activeUser.Success)
+            {
+                LoginButton.Text = "Logout";
+                Profilepicture.IconImageSource = AuthService.profilePicture;
+            }
+            else
+            {
+                LoginButton.Text = "Login";
+                Profilepicture.IconImageSource = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+            }
         }
 
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
@@ -27,24 +42,27 @@ namespace Zwitscher
             }
         }
 
-        private void ToolbarItem_Clicked_1(object sender, EventArgs e)
+        private async void ToolbarItem_Clicked_1(object sender, EventArgs e)
         {
-            Navigation.PushAsync(new Login());
+            if (AuthService.activeUser != null && AuthService.activeUser.Success)
+            {
+                try
+                {
+                    await authService.Logout();
+                    await Navigation.PopToRootAsync();
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Alert", ex.Message, "OK");
+                }
+            }
+            else
+            {
+                await Navigation.PushAsync(new Login());
+            }
         }
 
-        private async void ToolbarItem_Clicked_2(object sender, EventArgs e)
-        {
-            try
-            {
-                await authService.Logout();
-            }
-            catch (Exception ex)
-            {
-                await DisplayAlert("Alert", ex.Message, "OK");
-            }
-        }
-
-        private void ToolbarItem_Clicked_3(object sender, EventArgs e)
+        private void ToolbarItem_Clicked_2(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Impressum());
         }

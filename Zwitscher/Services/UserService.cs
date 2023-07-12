@@ -11,10 +11,10 @@ namespace Zwitscher.Services
 {
     public class UserService
     {
-        private HttpClient _client;
-        private string baseUrl = AppConfig.ApiUrl;
-        private AuthService authService = new AuthService();
-        private PostService postService = new PostService();
+        private readonly HttpClient _client;
+        private readonly string baseUrl = AppConfig.ApiUrl;
+        private readonly AuthService authService = new AuthService();
+        private readonly PostService postService = new PostService();
 
         public UserService()
         {
@@ -242,7 +242,7 @@ namespace Zwitscher.Services
 
         public async Task<HttpResponseMessage> RemoveProfilePicture(string userId, string mediaId)
         {
-            var response = await _client.DeleteAsync("API/Users/Media/Remove?userID=" + userId + "&mediaToRemoveId=" + mediaId);
+            var response = await _client.PostAsync("API/Users/Media/Remove?userID=" + userId + "&mediaToRemoveId=" + mediaId, null);
             return response.EnsureSuccessStatusCode();
         }
 

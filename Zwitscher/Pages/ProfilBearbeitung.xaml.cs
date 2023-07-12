@@ -20,10 +20,10 @@ namespace Zwitscher.Pages
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class ProfilBearbeitung : ContentPage
     {
-        private User User;
+        private readonly User User;
         private IFormFile profilePicture;
-        private UserService userService = new UserService();
-        private AuthService authService = new AuthService();
+        private readonly UserService userService = new UserService();
+        private readonly AuthService authService = new AuthService();
 
         public ProfilBearbeitung(User user)
         {
@@ -53,16 +53,18 @@ namespace Zwitscher.Pages
 
         private async void Button_Clicked(object sender, EventArgs e)
         {
-            var user = new User();
-            user.userID = User.userID;
-            user.lastname = Nachname.Text;
-            user.firstname = Vorname.Text;
-            user.username = Username.Text;
-            user.birthday = Geburtsdatum.Date.ToString();
-            user.biography = Biographíe.Text;
-            user.gender = Geschlecht.SelectedIndex.ToString();
+            var user = new User
+            {
+                userID = User.userID,
+                lastname = Nachname.Text,
+                firstname = Vorname.Text,
+                username = Username.Text,
+                birthday = Geburtsdatum.Date.ToString(),
+                biography = Biographíe.Text,
+                gender = Geschlecht.SelectedIndex.ToString(),
 
-            user.password = Passwort.Text ?? "";
+                password = Passwort.Text ?? ""
+            };
 
             try
             {
@@ -82,6 +84,32 @@ namespace Zwitscher.Pages
         {
             profilePicture = await MediaConverter.SelectImage();
             ProfilePicture.Source = profilePicture.FileName;
+        }
+
+        private async void DeletePicture_Clicked(object sender, EventArgs e)
+        {
+            bool answer = await DisplayAlert("Profilbild löschen", "Möchtest du dein Profilbild wirklich löschen?", "Ja", "Nein");
+
+            if (answer)
+            {
+                try
+                {
+                    if (User.pbFileName != AppConfig.ApiUrl+ "/Media/" + AppConfig.pbPlaceholder)
+                    {
+                        var fileName = User.pbFileName.Split('/').Last();
+                        var id = fileName.Split('.').First();
+
+                        await userService.RemoveProfilePicture(User.userID, id);
+                        ProfilePicture.Source = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+                    }
+
+                }
+                catch (Exception ex)
+                {
+                    await DisplayAlert("Alert", ex.Message, "OK");
+                }
+
+            }
         }
 
         private async void Delete_Clicked(object sender, EventArgs e)

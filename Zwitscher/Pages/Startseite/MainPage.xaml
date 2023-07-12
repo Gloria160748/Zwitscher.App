@@ -28,15 +28,12 @@
                      />
         <ToolbarItem Text="LogIn"
                      Clicked="ToolbarItem_Clicked_1"
+                     x:Name="LoginButton"
                      Priority="2"
                      Order="Secondary"/>
-        <ToolbarItem Text="Logout"
+        <ToolbarItem Text="Über uns"
                      Clicked="ToolbarItem_Clicked_2"
                      Priority="3"
-                     Order="Secondary"/>
-        <ToolbarItem Text="Über uns"
-                     Clicked="ToolbarItem_Clicked_3"
-                     Priority="4"
                      Order="Secondary"/>
         
         

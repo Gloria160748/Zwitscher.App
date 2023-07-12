@@ -18,6 +18,7 @@
                             <ImageButton Source="upload.png" HeightRequest="40" WidthRequest="40" BackgroundColor="Transparent" HorizontalOptions="Start" 
                                      Clicked="UploadButton_Clicked"/>
                             <Label Text="Profilbild" TextColor="DarkBlue" VerticalOptions="CenterAndExpand" Margin="30,0" FontSize="Medium"/>
+                            <Button Text="X" TextColor="Red" BackgroundColor="Transparent" Clicked="DeletePicture_Clicked" FontAttributes="Bold" CornerRadius="10" HorizontalOptions="End"/>
                         </StackLayout>
                     </Frame>
 

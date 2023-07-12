@@ -13,8 +13,10 @@ namespace Zwitscher
         {
             if(Client == null)
             {
-                Client = new HttpClient();
-                Client.BaseAddress = new Uri(ApiUrl);
+                Client = new HttpClient
+                {
+                    BaseAddress = new Uri(ApiUrl)
+                };
             }
 
             return Client;
