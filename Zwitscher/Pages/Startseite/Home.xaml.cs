@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Http.Internal;
+using Plugin.LocalNotification.AndroidOption;
+using Plugin.LocalNotification;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using System;
@@ -15,6 +17,7 @@ using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
 using Zwitscher.Services;
+using Zwitscher.Services.Notifications;
 
 namespace Zwitscher.Pages
 {
@@ -42,6 +45,22 @@ namespace Zwitscher.Pages
             apiData = await PostService.GetPosts();
             postsListView.ItemsSource = apiData;
             OnPropertyChanged("apiData");
+
+            SendNotification("Test");
+        }
+
+        public void SendNotification(string message, DateTime? notifyTime = null)
+        {
+            var notification = new NotificationRequest
+            {
+                BadgeNumber = 1,
+                NotificationId = 1500,
+                Title = "Notification",
+                Description = message,
+                ReturningData = "Dummy data",
+            };
+
+            LocalNotificationCenter.Current.Show(notification);
         }
 
         // Button ermöglicht hochladen von Bildern und Videos
