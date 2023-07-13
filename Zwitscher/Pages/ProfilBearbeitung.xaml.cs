@@ -94,13 +94,13 @@ namespace Zwitscher.Pages
             {
                 try
                 {
-                    if (User.pbFileName != AppConfig.ApiUrl+ "/Media/" + AppConfig.pbPlaceholder)
+                    if (User.pbFileName != AppConfig.pbPlaceholderUrl)
                     {
                         var fileName = User.pbFileName.Split('/').Last();
                         var id = fileName.Split('.').First();
 
                         await userService.RemoveProfilePicture(User.userID, id);
-                        ProfilePicture.Source = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+                        ProfilePicture.Source = AppConfig.pbPlaceholderUrl;
                     }
 
                 }

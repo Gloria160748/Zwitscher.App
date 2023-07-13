@@ -39,25 +39,13 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
-
-                for (int i = 0; i < post.mediaList.Count; i++)
-                {
-                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
-                }
-
+                post.isRetweet = post.retweetsPost != "";
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
+                post.mediaList = MediaConverter.ChangeMediaPath(post);
                 post.videoList = MediaConverter.GetVideoPath(post.mediaList);
                 post.videoIncluded = post.videoList.Count > 0;
                 post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
-                post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);
                 if (post.isRetweet)
                 {
@@ -83,25 +71,13 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
-
-                for (int i = 0; i < post.mediaList.Count; i++)
-                {
-                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
-                }
-
+                post.isRetweet = post.retweetsPost != "";
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
+                post.mediaList = MediaConverter.ChangeMediaPath(post);
                 post.videoList = MediaConverter.GetVideoPath(post.mediaList);
                 post.videoIncluded = post.videoList.Count > 0;
                 post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
-                post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);
                 if (post.isRetweet)
                 {
@@ -127,25 +103,13 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
-
-                for (int i = 0; i < post.mediaList.Count; i++)
-                {
-                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
-                }
-
+                post.isRetweet = post.retweetsPost != "";
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
+                post.mediaList = MediaConverter.ChangeMediaPath(post);
                 post.videoList = MediaConverter.GetVideoPath(post.mediaList);
                 post.videoIncluded = post.videoList.Count > 0;
                 post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
-                post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);
                 if (post.isRetweet)
                 {
@@ -161,23 +125,13 @@ namespace Zwitscher.Services
             HttpResponseMessage response = await _client.GetAsync("API/Post?id=" + id);
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<Post>(content);
-            if (apiData.user_profilePicture != "")
-            {
-                apiData.user_profilePicture = baseUrl + "/Media/" + apiData.user_profilePicture;
-            }
-            else
-            {
-                apiData.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-            }
-            for (int i = 0; i < apiData.mediaList.Count; i++)
-            {
-                apiData.mediaList[i] = baseUrl + "/Media/" + apiData.mediaList[i];
-            }
+            apiData.isRetweet = apiData.retweetsPost != "";
+            apiData.user_profilePicture = MediaConverter.ChangeProfilePath(apiData.user_profilePicture);
+            apiData.mediaList = MediaConverter.ChangeMediaPath(apiData);
             apiData.videoList = MediaConverter.GetVideoPath(apiData.mediaList);
             apiData.videoIncluded = apiData.videoList.Count > 0;
             apiData.mediaList = MediaConverter.GetImagePath(apiData.mediaList);
             apiData.mediaIncluded = apiData.mediaList.Count > 0;
-            apiData.isRetweet = apiData.retweetsPost != "";
             apiData.isOwnPost = authService.IsActiveUser(apiData.user_username);
             return apiData;
         }
@@ -230,14 +184,7 @@ namespace Zwitscher.Services
                 post.Comments = await CommentsToComments(post.commentId);
                 post.hasComments = post.Comments.Count > 0;
 
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
             }
 
             return apiData;
@@ -285,14 +232,7 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
             }
 
             return apiData;

@@ -28,14 +28,7 @@ namespace Zwitscher.Services
             string content = await response.Content.ReadAsStringAsync();
             var apiData = JsonSerializer.Deserialize<User>(content);
 
-            if (apiData.pbFileName != "")
-            {
-                apiData.pbFileName = baseUrl + "/Media/" + apiData.pbFileName;
-            }
-            else
-            {
-                apiData.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-            }
+            apiData.pbFileName = MediaConverter.ChangeProfilePath(apiData.pbFileName);
 
             return apiData;
         }
@@ -49,14 +42,7 @@ namespace Zwitscher.Services
 
             foreach (var user in apiData)
             {
-                if (user.pbFileName != "")
-                {
-                    user.pbFileName = baseUrl + "/Media/" + user.pbFileName;
-                }
-                else
-                {
-                    user.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                user.pbFileName = MediaConverter.ChangeProfilePath(user.pbFileName);
             }
 
             return apiData;
@@ -71,24 +57,13 @@ namespace Zwitscher.Services
 
             foreach (var post in apiData)
             {
-                if (post.user_profilePicture != "")
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + post.user_profilePicture;
-                }
-                else
-                {
-                    post.user_profilePicture = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
-
-                for (int i = 0; i < post.mediaList.Count; i++)
-                {
-                    post.mediaList[i] = baseUrl + "/Media/" + post.mediaList[i];
-                }
+                post.isRetweet = post.retweetsPost != "";
+                post.user_profilePicture = MediaConverter.ChangeProfilePath(post.user_profilePicture);
+                post.mediaList = MediaConverter.ChangeMediaPath(post);
                 post.videoList = MediaConverter.GetVideoPath(post.mediaList);
                 post.videoIncluded = post.videoList.Count > 0;
                 post.mediaList = MediaConverter.GetImagePath(post.mediaList);
                 post.mediaIncluded = post.mediaList.Count > 0;
-                post.isRetweet = post.retweetsPost != "";
                 post.isOwnPost = authService.IsActiveUser(post.user_username);
                 if (post.isRetweet)
                 {
@@ -108,14 +83,7 @@ namespace Zwitscher.Services
 
             foreach (var user in apiData)
             {
-                if (user.pbFileName != "")
-                {
-                    user.pbFileName = baseUrl + "/Media/" + user.pbFileName;
-                }
-                else
-                {
-                    user.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                user.pbFileName = MediaConverter.ChangeProfilePath(user.pbFileName);
             }
             return apiData;
         }
@@ -129,14 +97,7 @@ namespace Zwitscher.Services
 
             foreach (var user in apiData)
             {
-                if (user.pbFileName != "")
-                {
-                    user.pbFileName = baseUrl + "/Media/" + user.pbFileName;
-                }
-                else
-                {
-                    user.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                user.pbFileName = MediaConverter.ChangeProfilePath(user.pbFileName);
             }
             return apiData;
         }
@@ -150,14 +111,7 @@ namespace Zwitscher.Services
 
             foreach (var user in apiData)
             {
-                if (user.pbFileName != "")
-                {
-                    user.pbFileName = baseUrl + "/Media/" + user.pbFileName;
-                }
-                else
-                {
-                    user.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                user.pbFileName = MediaConverter.ChangeProfilePath(user.pbFileName);
             }
             return apiData;
         }
@@ -171,14 +125,7 @@ namespace Zwitscher.Services
 
             foreach (var user in apiData)
             {
-                if (user.pbFileName != "")
-                {
-                    user.pbFileName = baseUrl + "/Media/" + user.pbFileName;
-                }
-                else
-                {
-                    user.pbFileName = baseUrl + "/Media/" + AppConfig.pbPlaceholder;
-                }
+                user.pbFileName = MediaConverter.ChangeProfilePath(user.pbFileName);
             }
             return apiData;
         }

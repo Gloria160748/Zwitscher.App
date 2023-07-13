@@ -13,7 +13,7 @@ namespace Zwitscher.Services
     public class AuthService
     {
         public static LoginUser activeUser = null;
-        public static string profilePicture = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+        public static string profilePicture = AppConfig.pbPlaceholderUrl;
         private readonly HttpClient _client;
 
 
@@ -44,7 +44,7 @@ namespace Zwitscher.Services
             if (apiData != null && apiData.Success)
             {
                 activeUser = await GetActiveUser();
-                profilePicture = AppConfig.ApiUrl + "/Media/" + apiData.ProfilePicture;
+                profilePicture = MediaConverter.ChangeProfilePath(apiData.ProfilePicture);
             }
 
             return apiData;

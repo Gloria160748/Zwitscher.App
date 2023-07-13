@@ -25,7 +25,7 @@ namespace Zwitscher
             else
             {
                 LoginButton.Text = "Login";
-                Profilepicture.IconImageSource = AppConfig.ApiUrl + "/Media/" + AppConfig.pbPlaceholder;
+                Profilepicture.IconImageSource = AppConfig.pbPlaceholderUrl;
             }
         }
 

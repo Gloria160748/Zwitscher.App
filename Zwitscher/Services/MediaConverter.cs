@@ -7,6 +7,7 @@ using System.IO;
 using System.Text;
 using Plugin.Media;
 using System.Threading.Tasks;
+using Zwitscher.Models;
 
 namespace Zwitscher.Services
 {
@@ -69,6 +70,32 @@ namespace Zwitscher.Services
                 }
             }
             return imagePath;
+        }
+
+        public static string ChangeProfilePath(string profilePath)
+        {
+            if (profilePath != "")
+            {
+                return AppConfig.ApiUrl + "/Media/" + profilePath;
+            }
+            else
+            {
+                return AppConfig.pbPlaceholderUrl;
+            }
+        }
+
+        public static List<string> ChangeMediaPath(Post post)
+        {
+            if (post.isRetweet)
+            {
+                post.mediaList = new List<string>();
+            }
+
+            for (int i = 0; i < post.mediaList.Count; i++)
+            {
+                post.mediaList[i] = AppConfig.ApiUrl + "/Media/" + post.mediaList[i];
+            }
+            return post.mediaList;
         }
     }
 }
