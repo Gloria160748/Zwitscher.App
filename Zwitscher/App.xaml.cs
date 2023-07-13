@@ -12,9 +12,11 @@ namespace Zwitscher
 
             MainPage = new NavigationPage(new MainPage())
             {
-                BarBackgroundColor = Color.White,
-                BarTextColor = Color.FromHex("#27408b")
+                BarBackgroundColor = Color.LightBlue,
+                BarTextColor = Color.White
             };
+
+
            
         }
             
