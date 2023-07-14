@@ -1,17 +1,9 @@
-﻿using Microsoft.AspNetCore.Http.Internal;
-using Microsoft.AspNetCore.Http;
-using Plugin.Media.Abstractions;
+﻿using Microsoft.AspNetCore.Http;
 using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
-using Plugin.Media;
 using Zwitscher.Services;
 using System.Globalization;
 
@@ -30,6 +22,7 @@ namespace Zwitscher.Pages
             User = user;
             InitializeComponent();
 
+            // Setze die Werte der Textfelder auf die Werte des Users
             Nachname.Text = user.lastname ?? "";
             Vorname.Text = user.firstname ?? "";
             Username.Text = user.username ?? "";
@@ -51,6 +44,8 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Speichert die Änderungen am User ab. Dabei wird das Profilbild nur gespeichert, wenn es geändert wurde.
+        // Das Passwort wird, falls es leer ist, nicht geändert und als leeren String übergeben. Anschließend wird die Seite geschlossen.
         private async void Button_Clicked(object sender, EventArgs e)
         {
             var user = new User
@@ -80,12 +75,15 @@ namespace Zwitscher.Pages
             Navigation.RemovePage(this);
         }
 
+        // Öffnet den Filepicker und speichert das ausgewählte Bild in der Variable profilePicture
+        // Anschließend wird das Bild in der App angezeigt
         private async void UploadButton_Clicked(object sender, EventArgs e)
         {
             profilePicture = await MediaConverter.SelectImage();
             ProfilePicture.Source = profilePicture.FileName;
         }
 
+        // Löscht das Profilbild des Users. Dabei wird das Bild nur gelöscht, wenn es nicht das Standardbild ist.
         private async void DeletePicture_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Profilbild löschen", "Möchtest du dein Profilbild wirklich löschen?", "Ja", "Nein");
@@ -112,6 +110,8 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Löscht den User. Dabei wird der User nur gelöscht, wenn er sich vorher nochmal bestätigt hat.
+        // Anschließend wird der User ausgeloggt und die App wird auf die Startseite zurückgesetzt.
         private async void Delete_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Account löschen", "Möchtest du dein Account wirklich löschen? Dies kann nicht rückgängig gemacht werden", "Ja", "Nein");

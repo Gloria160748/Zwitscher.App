@@ -11,8 +11,10 @@ using Zwitscher.Models;
 
 namespace Zwitscher.Services
 {
+    // Diese Klasse ist für die Konvertierung und Auswählen von Bildern und Videos zuständig
     public class MediaConverter
     {
+        // Die Methode öffnet die Galerie und gibt ein Bild als IFormFile zurück
         public async static Task<IFormFile> SelectImage()
         {
             await CrossMedia.Current.Initialize();
@@ -22,6 +24,7 @@ namespace Zwitscher.Services
             return ConvertToFormFile(file);
         }
 
+        // Die Methode öffnet die Galerie und gibt ein Video als IFormFile zurück
         public async static Task<IFormFile> SelectVideo()
         {
             await CrossMedia.Current.Initialize();
@@ -31,6 +34,7 @@ namespace Zwitscher.Services
             return ConvertToFormFile(file);
         }
 
+        // Diese Methode wandelt ein MediaFile in ein IFormFile um
         public static IFormFile ConvertToFormFile(MediaFile file)
         {
             // Erstellen Sie eine neue MemoryStream und kopieren Sie die Daten aus der MediaFile-Stream
@@ -42,6 +46,7 @@ namespace Zwitscher.Services
             return new FormFile(memoryStream, 0, memoryStream.Length, file.Path, file.Path);
         }
 
+        // Hier wird aus der mediaList eines Posts die Videopfade herausgefiltert
         public static List<string> GetVideoPath(List<string> mediaStrings)
         {
             if (AppConfig.disableVideo)
@@ -59,6 +64,7 @@ namespace Zwitscher.Services
             return videoPath;
         }
 
+        // Hier wird aus der mediaList eines Posts die Bildpfade herausgefiltert
         public static List<string> GetImagePath(List<string> mediaStrings)
         {
             var imagePath = new List<string>();
@@ -72,6 +78,7 @@ namespace Zwitscher.Services
             return imagePath;
         }
 
+        // Diese Methode konfiguriert den Pfad für die Profilbilder so, dass die App sie vom Server laden kann
         public static string ChangeProfilePath(string profilePath)
         {
             if (profilePath != "")
@@ -84,6 +91,7 @@ namespace Zwitscher.Services
             }
         }
 
+        // Diese Methode konfiguriert den Pfad für die Medien so, dass die App sie vom Server laden kann
         public static List<string> ChangeMediaPath(Post post)
         {
             if (post.isRetweet)

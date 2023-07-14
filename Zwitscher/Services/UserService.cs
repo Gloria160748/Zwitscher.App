@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using System;
 using System.Collections.Generic;
 using System.Net.Http;
-using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Zwitscher.Models;
@@ -12,7 +10,6 @@ namespace Zwitscher.Services
     public class UserService
     {
         private readonly HttpClient _client;
-        private readonly string baseUrl = AppConfig.ApiUrl;
         private readonly AuthService authService = new AuthService();
         private readonly PostService postService = new PostService();
 
@@ -21,6 +18,7 @@ namespace Zwitscher.Services
             _client = AppConfig.GetHttpClient();
         }
 
+        // Holt einen Benutzer aus der Datenbank und gibt ihn zurück.
         public async Task<User> GetUserById(string id)
         {
             HttpResponseMessage response = await _client.GetAsync("API/User?id=" + id);
@@ -33,6 +31,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt alle Benutzer aus der Datenbank und gibt sie zurück.
         public async Task<List<User>> Users()
         {
             var response = await _client.GetAsync("API/Users");
@@ -48,6 +47,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt alle Posts eines spezifischen Benutzers aus der Datenbank und gibt sie zurück.
         public async Task<List<Post>> UserPosts(string id)
         {
             var response = await _client.GetAsync("API/Users/Posts?id=" + id);
@@ -74,6 +74,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt alle gefolten User eines spezifischen Benutzers aus der Datenbank und gibt sie zurück.
         public async Task<List<User>> FollowedUsers(string id)
         {
             var response = await _client.GetAsync("API/Users/Following?UserID=" + id);
@@ -88,6 +89,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt alle Benutzer, die einem spezifischen Benutzer folgen, aus der Datenbank und gibt sie zurück.
         public async Task<List<User>> Followers(string id)
         {
             var response = await _client.GetAsync("API/Users/FollowedBy?UserID=" + id);
@@ -102,6 +104,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt sich die gefilterten Benutzer aus der Datenbank und gibt sie zurück.
         public async Task<List<User>> SearchUsers(string search)
         {
             var response = await _client.GetAsync("API/Users/Search?searchString=" + search);
@@ -116,6 +119,8 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Holt alle blockierten Benutzer eines spezifischen Benutzers aus der Datenbank und gibt sie zurück.
+        // Diese Methode funktioniert nur, wenn man eingeloggt ist.
         public async Task<List<User>> BlockedUsers()
         {
             var response = await _client.GetAsync("API/Users/Blocking");
@@ -130,30 +135,35 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Ermöglicht es einem Benutzer einem anderen Benutzer zu folgen.
         public async Task<HttpResponseMessage> FollowUser(string id)
         {
             var response = await _client.PostAsync("API/Users/Following/Add?userToFollowId=" + id, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer einem anderen Benutzer nicht mehr zu folgen.
         public async Task<HttpResponseMessage> UnfollowUser(string id)
         {
             var response = await _client.PostAsync("API/Users/Following/Remove?userToUnfollowId=" + id, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer einen anderen Benutzer zu blockieren.
         public async Task<HttpResponseMessage> BlockUser(string id)
         {
             var response = await _client.PostAsync("API/Users/Blocking/Add?userToBlockId=" + id, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer einen anderen Benutzer nicht mehr zu blockieren.
         public async Task<HttpResponseMessage> UnblockUser(string id)
         {
             var response = await _client.PostAsync("API/Users/Blocking/Remove?userToUnblockId=" + id, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer seinen Account zu bearbeiten.
         public async Task<HttpResponseMessage> EditUser(User user)
         {
             var content = new MultipartFormDataContent
@@ -172,12 +182,14 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer seinen Account zu löschen.
         public async Task<HttpResponseMessage> DeleteUser(string id)
         {
             var response = await _client.DeleteAsync("API/Users/Remove?id=" + id);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer ein Profilbild hochzuladen.
         public async Task<HttpResponseMessage> AddProfilePicture(string userId, IFormFile file)
         {
             var content = new MultipartFormDataContent
@@ -190,13 +202,14 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es einem Benutzer ein Profilbild zu löschen.
         public async Task<HttpResponseMessage> RemoveProfilePicture(string userId, string mediaId)
         {
             var response = await _client.PostAsync("API/Users/Media/Remove?userID=" + userId + "&mediaToRemoveId=" + mediaId, null);
             return response.EnsureSuccessStatusCode();
         }
 
-
+        // Generiert einen Boolean der angibt, ob der aktive Benutzer dem angefragten Benutzer folgt.
         public async Task<bool> ActiveUserFollows(string requestId)
         {
             var activeUser = AuthService.activeUser;
@@ -214,6 +227,7 @@ namespace Zwitscher.Services
             return false;
         }
 
+        // Generiert einen Boolean der angibt, ob der aktive Benutzer den angefragten Benutzer blockiert hat.
         public async Task<bool> ActiveUserBlocked(string requestId)
         {
             var activeUser = AuthService.activeUser;

@@ -1,13 +1,11 @@
-﻿using System;
-using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
+﻿using Xamarin.Forms;
 using Zwitscher.Services.Notifications;
 
 namespace Zwitscher
 {
     public partial class App : Application
     {
-        public SignalRConnector SignalRConnector = new SignalRConnector();
+        public SignalRConnector signalRConnector = new SignalRConnector();
         public App()
         {
             InitializeComponent();
@@ -26,6 +24,7 @@ namespace Zwitscher
         
         protected override void OnStart()
         {
+            signalRConnector.Connect();
         }
 
         protected override void OnSleep()

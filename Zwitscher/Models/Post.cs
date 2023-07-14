@@ -6,6 +6,7 @@ namespace Zwitscher.Models
 {
     public class Post
     {
+        // Daten von der API
         public string postID { get; set; }
         public string user_username { get; set; }
         public string user_profilePicture { get; set; }
@@ -18,6 +19,7 @@ namespace Zwitscher.Models
         public string postText { get; set; }
         public string retweetsPost { get; set; }
 
+        // Zusätzliche Daten, die für die Darstellung benoetigt werden
         public bool isOwnPost { get; set; }
         public bool mediaIncluded { get; set; }
         public bool videoIncluded { get; set; }
@@ -28,6 +30,7 @@ namespace Zwitscher.Models
 
     public class NewPost
     {
+        // Model für das Erstellen eines neuen Posts
         public string Id { get; set; } = "";
         public string TextContent { get; set; }
         public bool IsPublic { get; set; }

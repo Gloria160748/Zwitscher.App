@@ -17,6 +17,7 @@ namespace Zwitscher
         protected override void OnAppearing()
         {
             base.OnAppearing();
+            // Unterscheidung zwischen Login und Logout und Anzeige des Profilbildes
             if (AuthService.activeUser != null && AuthService.activeUser.Success)
             {
                 LoginButton.Text = "Logout";
@@ -29,6 +30,7 @@ namespace Zwitscher
             }
         }
 
+        // Profilbild, das einen angemeldeten Nutzer zur Profilseite bringt und einen nicht angemeldeten Nutzer zur Loginseite
         private async void ToolbarItem_Clicked(object sender, EventArgs e)
         {
             var activeUser = await authService.GetActiveUser();
@@ -42,6 +44,7 @@ namespace Zwitscher
             }
         }
 
+        // Login und Logout Button
         private async void ToolbarItem_Clicked_1(object sender, EventArgs e)
         {
             if (AuthService.activeUser != null && AuthService.activeUser.Success)
@@ -62,6 +65,7 @@ namespace Zwitscher
             }
         }
 
+        // Über uns Seite
         private void ToolbarItem_Clicked_2(object sender, EventArgs e)
         {
             Navigation.PushAsync(new Impressum());

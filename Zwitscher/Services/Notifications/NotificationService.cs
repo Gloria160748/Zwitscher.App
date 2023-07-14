@@ -7,39 +7,13 @@ using Xamarin.Forms;
 
 namespace Zwitscher.Services.Notifications
 {
-    public interface INotificationManager
-    {
-        event EventHandler NotificationReceived;
-        void Initialize();
-        void SendNotification(string title, string message, DateTime? notifyTime = null);
-        void ReceiveNotification(string title, string message);
-    }
-
-    //public class NotificationService
-    //{
-
-    //    public static INotificationManager notificationManager;
-    //    public static int notificationNumber = 0;
-
-    //    public NotificationService()
-    //    {
-    //        notificationManager = DependencyService.Get<INotificationManager>();
-    //        notificationManager.Initialize();
-    //    }
-
-    //    public void SendNotification(string title, string message, DateTime? notifyTime = null)
-    //    {
-    //        notificationManager.SendNotification(title, message, notifyTime);
-    //    }
-
-    //    public void ReceiveNotification(string title, string message)
-    //    {
-    //        notificationManager.ReceiveNotification(title, message);
-    //    }
-    //}
-
     public class NotificationService
     {
+        // Nach einigen Versuchen ist es gelungen auf einem Android Telefon Benachrichtigungen zu erhalten.
+        // Die Benachrichtigungen konnten aber nicht in den Android Emulator übertragen werden, weshalb keine weiteren Funktionen implementiert wurden.
+        // Eine komplette Funktionsübertragung auf die Hardware ist aus Zertifizierungsgründen während der Entwicklung nicht möglich gewesen.
+
+
         public NotificationService()
         {
         }
@@ -52,10 +26,14 @@ namespace Zwitscher.Services.Notifications
                 NotificationId = 1500,
                 Title = "Notification",
                 Description = message,
-                ReturningData = "Dummy data",
+                Schedule = new NotificationRequestSchedule
+                {
+                    NotifyTime = notifyTime ?? DateTime.Now.AddSeconds(5)
+                },
                 Android = new AndroidOptions
                 {
                     VibrationPattern = new long[] { 1000, 1000, 1000 },
+                    Priority = AndroidPriority.High,
                 },
             };
 

@@ -87,19 +87,6 @@
                         </Entry>
                     </Frame>
 
-                    <!--<Frame 
-                        Margin="10"
-                        BorderColor="DarkBlue"
-                        CornerRadius="10">
-                        <Entry
-                        x:Name="PasswortWiederholen"
-                        Placeholder="Passwort wiederholen"
-                        TextColor="DarkBlue" 
-                        PlaceholderColor="#27408b"
-                        IsPassword="True">
-                        </Entry>
-                    </Frame>-->
-
                     <Frame 
                         Margin="10"
                         BorderColor="DarkBlue"

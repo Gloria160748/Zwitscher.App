@@ -1,9 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -20,16 +15,19 @@ namespace Zwitscher.Pages
             ImpressumView.Text = ImpressumText;
         }
 
+        // Toggel für die Anzeige des Impressums
         public void ImpressumClicked(object sender, EventArgs e)
         {
             ImpressumView.IsVisible = !ImpressumView.IsVisible;
         }
 
+        // Toggel für die Anzeige der Datenschutzerklärung
         public void DatenschutzClicked(object sender, EventArgs e)
         {
             DatenschutzView.IsVisible = !DatenschutzView.IsVisible;
         }
 
+        // Öffnen der Mail-App mit der Support-Mail-Adresse
         public void KontaktClicked(object sender, EventArgs e)
         {
             var emailMessage = "support@Zwitscher.de";

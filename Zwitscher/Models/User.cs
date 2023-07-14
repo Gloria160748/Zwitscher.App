@@ -6,6 +6,7 @@ namespace Zwitscher.Models
 {
     public class User
     {
+        // Daten von der API
         public string userID { get; set; }
         public string lastname { get; set; }
         public string firstname { get; set; }

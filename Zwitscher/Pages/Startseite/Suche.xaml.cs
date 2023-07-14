@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
@@ -11,7 +7,7 @@ using Zwitscher.Services;
 
 namespace Zwitscher.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Suche : ContentPage
 	{
         private UserService UserService = new UserService();
@@ -22,6 +18,7 @@ namespace Zwitscher.Pages
 			InitializeComponent ();
 		}
 
+        // Laden der User beim Start der Seite
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -30,6 +27,7 @@ namespace Zwitscher.Pages
             OnPropertyChanged("apiData");
         }
 
+        // Wenn in der Suchleiste etwas eingegeben wird, werden die User nach dem eingegebenen Text gefiltert
         private async void SearchBar_TextChanged(object sender, TextChangedEventArgs e)
         {
             string searchText = e.NewTextValue;
@@ -45,6 +43,7 @@ namespace Zwitscher.Pages
             OnPropertyChanged("apiData");
         }
 
+        // Wenn auf einen User geklickt wird, wird die Profilseite des Users geöffnet
         private void SelectUser(object sender, EventArgs e)
         {
             var user = (User)((Frame)sender).BindingContext;

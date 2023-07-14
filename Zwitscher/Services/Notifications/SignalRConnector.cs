@@ -6,11 +6,12 @@ using System.Threading.Tasks;
 
 namespace Zwitscher.Services.Notifications
 {
+    // Diese Klasse ist für die Verbindung mit dem SignalR Server zuständig
     public class SignalRConnector
     {
         private readonly string connectionString = AppConfig.ApiUrl + "/userHub";
         private HubConnection hubConnection;
-        //private NotificationService notificationService = new NotificationService();
+        private NotificationService notificationService = new NotificationService();
         public bool IsConnected = false;
 
         public SignalRConnector()
@@ -25,15 +26,19 @@ namespace Zwitscher.Services.Notifications
                 Console.WriteLine(message);
             });
 
-            //notificationService.SendNotification("SignalR", "Connected to SignalR");
+ 
         }
 
         public async void Connect()
         {
+
+            notificationService.SendNotification("Try to connect SignalR");
             try
             {
                 await hubConnection.StartAsync();
                 IsConnected = true;
+                await hubConnection.InvokeAsync("TestConnection", "Test");
+                notificationService.SendNotification("SignalR is connected");
             }
             catch (Exception ex)
             {

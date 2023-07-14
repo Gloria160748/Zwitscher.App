@@ -1,12 +1,8 @@
 ﻿using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Net.Http;
-using System.Runtime.InteropServices.ComTypes;
-using System.Text;
 using System.Text.Json;
-using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Zwitscher.Models;
@@ -16,7 +12,6 @@ namespace Zwitscher.Services
     public class PostService
     {
         private HttpClient _client;
-        private string baseUrl = AppConfig.ApiUrl;
         private AuthService authService = new AuthService();
 
         public PostService()
@@ -120,6 +115,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Laden eines einzelnen Posts nach id
         public async Task<Post> GetSinglePost(string id)
         {
             HttpResponseMessage response = await _client.GetAsync("API/Post?id=" + id);
@@ -136,6 +132,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Erstellen eines Posts mit Bildern und Videos
         public async Task<HttpResponseMessage> CreatePost(IFormFile[] files, NewPost post)
         {
             var request = new HttpRequestMessage(HttpMethod.Post, "API/Posts/Add");
@@ -154,6 +151,7 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Editieren des Textes eines Posts
         public async Task<HttpResponseMessage> EditPost(NewPost post)
         {
             var content = new MultipartFormDataContent
@@ -167,12 +165,15 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Löschen eines Posts
         public async Task<HttpResponseMessage> DeletePost(string id)
         {
             HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Remove?id=" + id);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Laden der Kommentare zu einem Post. Dabei werden auch die Kommentare der Kommentare geladen und in die liste Comments eines einzelnen
+        // Kommentares gespeichert.
         public async Task<List<Comment>> PostComments(string id)
         {
             HttpResponseMessage response = await _client.GetAsync("API/Posts/Comments?id=" + id);
@@ -190,6 +191,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Das Voting für einen Post ist abhängig von der ID des Posts und ob der User upvoten oder downvoten möchte.
         public async Task<HttpResponseMessage> ManageVote(string id, bool IsUpVote)
         {
             var content = new MultipartFormDataContent
@@ -201,6 +203,7 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Fügt einen Kommentar zu einem Post hinzu
         public async Task<HttpResponseMessage> AddComment(string id, string text)
         {
             var content = new MultipartFormDataContent
@@ -212,18 +215,21 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Editiert einen Kommentar
         public async Task<HttpResponseMessage> EditComment(string id, string text)
         {
             HttpResponseMessage response = await _client.PostAsync("API/Comments/Edit?id=" + id + "&CommentText=" + text, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Löscht einen Kommentar und alle seine Kommentare
         public async Task<HttpResponseMessage> DeleteComment(string postId, string commentId)
         {
             HttpResponseMessage response = await _client.DeleteAsync("API/Posts/Comment/Remove?postId=" + postId + "&commentId=" + commentId);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Holt alle Kommentare zu einem Kommentar
         public async Task<List<Comment>> CommentsToComments(string id)
         {
             HttpResponseMessage response = await _client.GetAsync("API/Comments/Comments?id=" + id);
@@ -238,6 +244,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Fügt einen Kommentar zu einem Kommentar hinzu
         public async Task<HttpResponseMessage> AddCommentToComment(string id, string text)
         {
             var content = new MultipartFormDataContent
@@ -249,12 +256,14 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Löscht einen Kommentar zu einem Kommentar
         public async Task<HttpResponseMessage> DeleteCommentToComment(string commentId, string commentToCommentId)
         {
             HttpResponseMessage response = await _client.PostAsync("API/Comments/Comment/Remove?commentId=" + commentId + "&commentToRemoveId=" + commentToCommentId, null);
             return response.EnsureSuccessStatusCode();
         }
 
+        // Ermöglicht es zu einem bereits bestehenden Post Medien hinzuzufügen
         public async Task<HttpResponseMessage> AddMediaToPost(string id, IFormFile[] files)
         {
             var content = new MultipartFormDataContent
@@ -271,6 +280,7 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Löscht alle Medien von einem Post
         public async Task<HttpResponseMessage> RemoveMediaFromPost(string postId)
         {
             HttpResponseMessage response = await _client.GetAsync("API/Post?id=" + postId);

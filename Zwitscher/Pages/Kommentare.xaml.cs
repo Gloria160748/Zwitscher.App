@@ -1,9 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
@@ -20,16 +16,13 @@ namespace Zwitscher.Pages
         private Comment editComment = null;
         public List<Comment> comments;
         
-        public Kommentare()
-        {
-            InitializeComponent();
-        }
         public Kommentare(string id)
         {
             InitializeComponent();
             postID = id;
         }
 
+        // Laden der Kommentare beim Start der Seite
         protected override async void OnAppearing()
         {
             base.OnAppearing();
@@ -38,6 +31,7 @@ namespace Zwitscher.Pages
             OnPropertyChanged("comments");
         }
 
+        // Löschen eines Kommentars und aktualisieren der Kommentare
         private async void DeleteCommentButton_Clicked(object sender, EventArgs e)
         {
             var comment = (Comment)((ImageButton)sender).BindingContext;
@@ -54,6 +48,7 @@ namespace Zwitscher.Pages
             OnPropertyChanged("comments");
         }
 
+        // Erstellen eines Kommentars. Alternativ kann ein Kommentar bearbeitet werden.
         private async void ButtonCreateComment_Clicked(object sender, EventArgs e)
         {
             try
@@ -87,6 +82,7 @@ namespace Zwitscher.Pages
             OnPropertyChanged("comments");
         }
 
+        // Bearbeiten eines Kommentars über die Kommentar erstellen UI
         private void EditButton_Clicked(object sender, EventArgs e)
         {
             var comment = (Comment)((ImageButton)sender).BindingContext;
@@ -98,6 +94,7 @@ namespace Zwitscher.Pages
             ScrollViewSite.ScrollToAsync(0, 0, true);
         }
 
+        // Antworten auf einen Kommentar
         private void CommentButton_Clicked(object sender, EventArgs e)
         {
             var comment = (Comment)((ImageButton)sender).BindingContext;
@@ -106,6 +103,7 @@ namespace Zwitscher.Pages
             RecommentLabel.Text = "Antworten auf " + comment.user_username;
         }
 
+        // Entferne den Verweis auf einen anderen Kommentar, der beantwortet werden sollte
         private void DeleteRecommentButton_Clicked(object sender, EventArgs e)
         {
             recommentId = null;

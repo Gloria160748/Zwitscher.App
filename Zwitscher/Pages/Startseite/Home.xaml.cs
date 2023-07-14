@@ -1,23 +1,10 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Plugin.LocalNotification.AndroidOption;
-using Plugin.LocalNotification;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
-using System.Text;
-using System.Threading.Tasks;
-using Xamarin.CommunityToolkit.UI.Views;
-using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
 using Zwitscher.Services;
-using Zwitscher.Services.Notifications;
 
 namespace Zwitscher.Pages
 {
@@ -30,7 +17,6 @@ namespace Zwitscher.Pages
         private Post editPost = null;
         private List<IFormFile> files = new List<IFormFile>();
         private PostService PostService = new PostService();
-        private UserService UserService = new UserService();
 
 
         public Home()
@@ -45,22 +31,6 @@ namespace Zwitscher.Pages
             apiData = await PostService.GetPosts();
             postsListView.ItemsSource = apiData;
             OnPropertyChanged("apiData");
-
-            SendNotification("Test");
-        }
-
-        public void SendNotification(string message, DateTime? notifyTime = null)
-        {
-            var notification = new NotificationRequest
-            {
-                BadgeNumber = 1,
-                NotificationId = 1500,
-                Title = "Notification",
-                Description = message,
-                ReturningData = "Dummy data",
-            };
-
-            LocalNotificationCenter.Current.Show(notification);
         }
 
         // Button ermöglicht hochladen von Bildern und Videos
@@ -123,6 +93,7 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Entfernt den Verweis auf einen Rezwitscher
         private void DeleteRezwitscherButton_Clicked(object sender, EventArgs e)
         {
             retweetId = "";
@@ -206,6 +177,7 @@ namespace Zwitscher.Pages
             await Navigation.PushAsync(new Kommentare(post.postID));
         }
 
+        // Fügt einen Verweis auf einen Rezwitscher hinzu und setzt den Text des Labels
         private void RezwitscherButton_Clicked(object sender, EventArgs e)
         {
             var post = (Post)((ImageButton)sender).BindingContext;
@@ -214,6 +186,7 @@ namespace Zwitscher.Pages
             RezwitscherLabel.Text = "Rezwitscher von " + post.user_username;
         }
 
+        // Löscht einen Post
         private async void DeleteButton_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Post löschen", "Möchtest du den Post wirklich löschen?", "Ja", "Nein");
@@ -232,6 +205,7 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Aktualisiert die Posts, nachdem eine Aktion ausgeführt wurde
         private async void Refresh()
         {
             apiData = await PostService.GetPosts();

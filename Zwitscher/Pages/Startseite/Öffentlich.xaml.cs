@@ -1,14 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Http.Internal;
-using Plugin.Media;
-using Plugin.Media.Abstractions;
 using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 using Zwitscher.Models;
@@ -16,7 +8,7 @@ using Zwitscher.Services;
 
 namespace Zwitscher.Pages
 {
-	[XamlCompilation(XamlCompilationOptions.Compile)]
+    [XamlCompilation(XamlCompilationOptions.Compile)]
 	public partial class Öffentlich : ContentPage
 	{
         public string retweetId = "";
@@ -25,7 +17,6 @@ namespace Zwitscher.Pages
         private Post editPost = null;
         private List<IFormFile> files = new List<IFormFile>();
         private PostService PostService = new PostService();
-        private UserService UserService = new UserService();
 
 
         public Öffentlich()
@@ -102,6 +93,7 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Entfernt den Verweis auf einen Rezwitscher
         private void DeleteRezwitscherButton_Clicked(object sender, EventArgs e)
         {
             retweetId = "";
@@ -185,6 +177,7 @@ namespace Zwitscher.Pages
             await Navigation.PushAsync(new Kommentare(post.postID));
         }
 
+        // Fügt einen Verweis auf einen Rezwitscher hinzu und setzt den Text des Labels
         private void RezwitscherButton_Clicked(object sender, EventArgs e)
         {
             var post = (Post)((ImageButton)sender).BindingContext;
@@ -193,6 +186,7 @@ namespace Zwitscher.Pages
             RezwitscherLabel.Text = "Rezwitscher von " + post.user_username;
         }
 
+        // Löscht einen Post
         private async void DeleteButton_Clicked(object sender, EventArgs e)
         {
             bool answer = await DisplayAlert("Post löschen", "Möchtest du den Post wirklich löschen?", "Ja", "Nein");
@@ -211,6 +205,7 @@ namespace Zwitscher.Pages
             }
         }
 
+        // Aktualisiert die Posts, nachdem eine Aktion ausgeführt wurde
         private async void Refresh()
         {
             apiData = await PostService.GetPostsPublic();

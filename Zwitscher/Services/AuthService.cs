@@ -22,7 +22,9 @@ namespace Zwitscher.Services
             _client = AppConfig.GetHttpClient();
         }
 
-
+        // Diese Methode wird aufgerufen, wenn der Benutzer sich einloggt. Dafür wird der Username und das Passwort in den Body der Anfrage gepackt.
+        // Die Antwort wird in ein LoginUser Objekt umgewandelt und zurückgegeben. Bei einem erfolgreichen Login wird der aktive Benutzer gesetzt und
+        // das Profilbild geladen.
         public async Task<LoginUser> Login(string username, string password)
         {
 
@@ -50,6 +52,8 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Diese Methode wird aufgerufen, wenn der Benutzer sich registriert. Dafür werden alle Daten in den Body der Anfrage gepackt.
+        // Falls die Registrierung erfolgreich war, wird der aktive Benutzer gesetzt und das Profilbild geladen. Ein weiterer Login ist nicht nötig.
         public async Task<LoginUser> Register(string LastName, String FirstName, int Gender, String Username, String Password, DateTime Birthday)
         {
 
@@ -79,6 +83,7 @@ namespace Zwitscher.Services
 
         }
 
+        // Diese Methode loggt den Benutzer aus und setzt den aktiven Benutzer auf null.
         public async Task<HttpResponseMessage> Logout()
         {
             activeUser = null;
@@ -86,6 +91,7 @@ namespace Zwitscher.Services
             return response.EnsureSuccessStatusCode();
         }
 
+        // Über diese Methode wird der aktive Benutzer abgefragt und zurückgegeben. Dabei werden auch weitere Daten wie die UserID ermittelt.
         public async Task<LoginUser> GetActiveUser()
         {
             var response = await _client.GetAsync("Api/UserDetails");
@@ -95,6 +101,7 @@ namespace Zwitscher.Services
             return apiData;
         }
 
+        // Diese Methode überprüft, ob der aktive Benutzer den übergebene Benutzernamen hat.
         public bool IsActiveUser(string username)
         {
             if (activeUser == null)
